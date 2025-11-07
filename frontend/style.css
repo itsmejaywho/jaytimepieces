@@ -1,0 +1,176 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* outline: 1px solid red; */
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.fa-solid {
+    font-size: 20px;
+    color: #938581;
+    background-color: transparent;
+}
+
+header {
+    height: 80px;
+    display: flex;
+}
+
+.searchDiv {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search {
+    /* height: 45px; */
+    padding: 10px;
+    width: 70%;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+
+}
+
+.logoDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    height: 80%;
+}
+
+#searchWatch {
+    width: 80%;
+    padding: 8px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: black;
+}
+
+.logoDiv, .logRegDiv {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-registration {
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.text-color {
+    color: #353535;
+}
+
+#login-registration:hover {
+    text-decoration: underline;
+}
+
+.navDiv {
+    margin-top: 10px;
+    height: 600px;
+    width: 100%;
+    background-color: white;
+    background-image: url(../watches/watches.jpg);
+    background-position: center;
+    background-size: cover;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.navDiv p {
+    font-size: 3rem;
+}
+
+.navDiv button {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    outline: none;
+    border: none;
+    transition: transform 1s ease-out;
+}
+
+.navDiv button:hover {
+    transform: scale(1.1);
+    transition: transform 1s ease-out;
+}
+
+button {
+    cursor: pointer;
+}
+
+#brands {
+    display: flex;
+    /* align-items: center; */
+    padding: 10px;
+    justify-content: center;
+    gap: 20px;
+    height: 150px;
+    /* background-color: blue; */
+    flex-wrap: wrap;
+    overflow-y: auto;
+    width: 90%;
+    height: 90%;
+}
+
+.brands {
+    height: 200px;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+#brands::-webkit-scrollbar {
+    width: 0;
+}
+
+.watchBrandNames {
+    padding: 20px;
+    background-color: #d9d9d9;
+    color: black    ;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    height: 50px;
+}
+
+.watchBrandNames:hover {
+    color: #7f5539;
+}
+
+
+.info{
+    height: 100px;
+}
