@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./frontend/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://kit.fontawesome.com/5c043af9e9.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -36,8 +37,37 @@
     </div>
 
     <div class="brands">
-        <p>Popular brands</p>
+        <div class="w-[90%] p-[2px] popular">
+            <p class="text-[1.5rem] tracking-[3px] font-medium">Popular Brands</p>
+        </div>
         <div id="brands">
+        </div>
+        <button class="displayAll text-[.9rem]">Display All</button>
+    </div>
+
+    <div class="leading h-[350px] flex flex-col items-center">
+        <div class="h-[80px] w-[85%] flex items-center">
+            <p class="text-[1.6rem] tracking-[2px]">The Leading Marketplace for Luxury Watches Since 2025</p>
+        </div>
+        <div class="h-[270px] w-[85%] flex justify-evenly">
+            <div class="h-full w-[23%] border-1 flex flex-col rounded-[10px]">
+                <div class="h-[60%] w-full  flex justify-center items-center">
+                    <img src="./watches/rating.svg" class="h-[90%]" alt="">
+                </div>
+                <div class="h-[40%] w-full border-t-1 border-gray-300 flex flex-col justify-center items-center">
+                    <p id="rating" class="text-[1.5rem]"></p>
+                    <p id="howManyRate" class="text-[.9rem] tracking-[1px]"></p>
+                </div>
+            </div>
+            <div class="h-full w-[23%] border-1 flex flex-col rounded-[10px]">
+
+            </div>
+            <div class="h-full w-[23%] border-1 flex flex-col rounded-[10px]">
+
+            </div>
+            <div class="h-full w-[23%] border-1 flex flex-col rounded-[10px]">
+
+            </div>
         </div>
     </div>
 
