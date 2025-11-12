@@ -1,4 +1,8 @@
 const  logReg = document.getElementById('login-registration')
+const login = document.getElementById('login');
+const frontPage = document.getElementById('myfront');
+const show_password = document.getElementById('show_password')
+const password = document.getElementById('password')
 const discoverMore = document.getElementById('discoverMore');
 const rating = document.getElementById('rating')
 const brands = document.getElementById('brands');
@@ -14,6 +18,18 @@ const peopleRate = [2, 5, 5, 4, 3, 2, 5];
 let total = 0;
 let totalRating = 0
 const users = peopleRate.length
+const loginbtn = document.getElementById('loginBtn')
+
+const hideorshow = document.getElementById('hideorshow');
+const hideorshowText = document.getElementById('hideorshowText')
+const loginLogo = document.getElementById('loginLogo')
+
+
+
+loginLogo.addEventListener('click', () => {
+    login.style.display = 'none'
+    frontPage.style.display = 'flex'
+})
 
 
 console.log(100000/1000)
@@ -40,6 +56,30 @@ rating.innerText =  `${totalRating} out of ${stars}`;
 howManyRate.innerText = `from ${peopleRate.length} reviews Worldwide`;
 
 
+logReg.addEventListener('click', () => {
+
+    frontPage.style.display = 'none'
+    login.style.display  =  'flex'
+
+})
+
+
+show_password.addEventListener('click', () => {
+
+    if(password.type === 'password'){
+        password.type = 'text'
+        hideorshowText.innerText = 'Hide Password'
+        hideorshow.src = './watches/hide.svg'
+    }else if(password.type === 'text'){
+        password.type = 'password'
+        hideorshowText.innerText = `Show Password`
+        hideorshow.src = './watches/show.svg'
+    }
+
+
+    console.log(password.type)
+})
+
 brandWatch.forEach(brandName => {
     const watchBrandDiv = document.createElement('button');
     watchBrandDiv.innerText = brandName;
@@ -47,3 +87,4 @@ brandWatch.forEach(brandName => {
     brands.appendChild(watchBrandDiv)
 
 })
+

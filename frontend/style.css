@@ -190,3 +190,68 @@ button {
 .leading {
     margin-top: 40px
 }
+
+/* FRONTPAGE */
+
+#myfront {
+    display:none
+}
+
+/* LOGIN */
+
+#login {
+    display: flex;
+    /* background-color: #7f5539; */
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+input {
+    outline: none;
+}
+
+#loginForm{
+    padding: 20px ;
+}
+
+.userForm {
+    padding-top: 20px;
+    position: relative;
+    /* background-color: red; */
+}
+
+.userForm input {
+    padding: 10px;
+    height: 50px;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.userForm label {
+    position: absolute;
+    left: 15px;
+    top: 38px;
+    transition: .3s ease-out;
+}
+
+.userForm:has(input:focus) label, .userForm:has(input:not(:placeholder-shown)) label {
+    top: 1px;
+    left: 1px;
+}
+
+#show_password:hover {
+    cursor:pointer;
+    text-decoration: underline;
+}
+
+
+#loginBtn {
+    padding: 20px;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+}
