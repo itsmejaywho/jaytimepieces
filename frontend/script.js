@@ -3,6 +3,7 @@ const login = document.getElementById('login');
 const frontPage = document.getElementById('myfront');
 const show_password = document.getElementById('show_password')
 const password = document.getElementById('password')
+const username = document.getElementById('username')
 const discoverMore = document.getElementById('discoverMore');
 const rating = document.getElementById('rating')
 const brands = document.getElementById('brands');
@@ -11,6 +12,7 @@ const howManyRate = document.getElementById('howManyRate')
 const userCount = document.getElementById('userCount')
 const protectionCount = document.getElementById('protectionCount');
 const buyerCount = document.getElementById('buyerCount')
+const loginForm = document.getElementById('loginForm')
 const buyerProtection = 100;
 const buyerCounts = 1000;
 const stars = 5;
@@ -26,13 +28,39 @@ const loginLogo = document.getElementById('loginLogo')
 
 
 
-loginLogo.addEventListener('click', () => {
-    login.style.display = 'none'
-    frontPage.style.display = 'flex'
+
+
+loginbtn.addEventListener('click', (e)=> {
+    e.preventDefault();
+    getLogin();
 })
 
+async function getLogin() {
 
-console.log(100000/1000)
+    const requestLogin = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_name: username.value,
+            user_password: password.value,
+            message: 'from frontend'
+        })
+    });
+    const data = await requestLogin.json();
+    console.log(data)
+
+
+    if(data.user){
+        alert('login successful')
+    }else {
+        alert('try again')
+    }
+}
+
+
+
 
 peopleRate.forEach(rate => {
     total = total + rate
