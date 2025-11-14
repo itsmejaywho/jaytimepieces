@@ -13,6 +13,7 @@ const userCount = document.getElementById('userCount')
 const protectionCount = document.getElementById('protectionCount');
 const buyerCount = document.getElementById('buyerCount')
 const loginForm = document.getElementById('loginForm')
+const signup = document.getElementById('signup')
 const buyerProtection = 100;
 const buyerCounts = 1000;
 const stars = 5;
@@ -21,12 +22,24 @@ let total = 0;
 let totalRating = 0
 const users = peopleRate.length
 const loginbtn = document.getElementById('loginBtn')
+const signupForm = document.getElementById('signupForm')
+
+
+const usernameSignup = document.getElementById('usernameSignup')
+const firstnameSignup = document.getElementById('firstnameSignup')
+const lastnameSignup = document.getElementById('lastnameSignup')
+const passwordSignup = document.getElementById('passwordSignup')
+const signUpsubmit = document.getElementById('signUpsubmit')
 
 const hideorshow = document.getElementById('hideorshow');
 const hideorshowText = document.getElementById('hideorshowText')
 const loginLogo = document.getElementById('loginLogo')
 
 
+signup.addEventListener('click', () => {
+    login.style.display = 'none'
+    signupForm.style.display = 'flex'
+})
 
 
 
@@ -34,6 +47,38 @@ loginbtn.addEventListener('click', (e)=> {
     e.preventDefault();
     getLogin();
 })
+
+signUpsubmit.addEventListener('click', (e)=> {
+    e.preventDefault();
+    signUpRegistration();
+})
+
+
+async function signUpRegistration() {
+
+    const requestSignup = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            usernameInput: usernameSignup.value,
+            firstnameInput: firstnameSignup.value,
+            lastnameInput:  lastnameSignup.value,
+            passwordInput: passwordSignup.value
+        })
+    })
+
+    const addedData = await requestSignup.json();
+
+    console.log(addedData.message)
+}
+
+
+
+
+
+
 
 async function getLogin() {
 

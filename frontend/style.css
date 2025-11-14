@@ -200,7 +200,7 @@ button {
 /* LOGIN */
 
 #login {
-    display: flex;
+    display: none;
     /* background-color: #7f5539; */
     height: 100vh;
     justify-content: center;
@@ -254,4 +254,19 @@ input {
     background-color: black;
     color: white;
     border-radius: 10px;
+}
+
+
+/* registration */
+
+#signupForm {
+    display: flex;
+    height: 100vh;
+    /* background-color: black; */
+    align-items: center;
+    justify-content: center;
+}
+
+#signupForm form input {
+    border:1px solid black;
 }

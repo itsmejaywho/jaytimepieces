@@ -24,6 +24,41 @@ app.get('/', (req, res) => {
 })
 
 
+app.post('/signup', (req, res)=> {
+
+    const {usernameInput, firstnameInput, lastnameInput, passwordInput} = req.body
+    const checkUser = 'Select * FROM ecommerce_users WHERE userName = ?'
+    const addUser = 'INSERT INTO ecommerce_users (userName, firstName, lastName, userPassword) VALUES (?, ?, ?, ?)'
+
+    connection.query(checkUser, [usernameInput], (err, checkUserResponse)=>{
+
+        if(err){
+            console.log(err)
+        }
+
+        if(checkUser.length>0){
+                         console.error('MySQL Error:', err);
+                    res.json({
+            message: 'Already exist'})
+        }else {
+        connection.query(addUser, [usernameInput, firstnameInput, lastnameInput, passwordInput], (err, response)=>{
+
+                if(err){
+                    console.error('MySQL Error:', err);
+                            res.json({
+                    message: 'Already Exist'
+                })
+                }else {
+                            res.json({
+                    message: 'added na boi'
+                })
+                }
+            })
+        }
+    })
+
+})
+
 
 app.post('/login', (req, res) => {
 
@@ -50,6 +85,8 @@ app.post('/login', (req, res) => {
         }
     })
 })
+
+
 
 
 
