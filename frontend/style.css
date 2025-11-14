@@ -269,4 +269,25 @@ input {
 
 #signupForm form input {
     border:1px solid black;
+    
+}
+
+.userSignup {
+    background-color: red;
+    padding-top: 20px;
+    position: relative;
+}
+
+.userSignup input {
+    padding: 10px;
+}
+
+.userSignup label {
+    position: absolute;
+    left: 0;
+}
+
+
+.userSignup:has(input:focus) label, .userSignup:has(input:not(:placeholder-shown)) label {
+    left: 100px
 }

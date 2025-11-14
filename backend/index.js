@@ -30,29 +30,25 @@ app.post('/signup', (req, res)=> {
     const checkUser = 'Select * FROM ecommerce_users WHERE userName = ?'
     const addUser = 'INSERT INTO ecommerce_users (userName, firstName, lastName, userPassword) VALUES (?, ?, ?, ?)'
 
-    connection.query(checkUser, [usernameInput], (err, checkUserResponse)=>{
-
+    connection.query(checkUser, [usernameInput], (err, checkUserResponse) => {
         if(err){
-            console.log(err)
+            console.log( 'Checking dup user error: ' + err)
         }
 
-        if(checkUser.length>0){
-                         console.error('MySQL Error:', err);
-                    res.json({
-            message: 'Already exist'})
-        }else {
-        connection.query(addUser, [usernameInput, firstnameInput, lastnameInput, passwordInput], (err, response)=>{
-
+        if(checkUserResponse.length > 0){
+            return res.json({
+                message: 'User Already Exist'
+            })
+        }else{
+            connection.query(addUser, [usernameInput, firstnameInput, lastnameInput, passwordInput], (err, addUserResponse)=>{
                 if(err){
-                    console.error('MySQL Error:', err);
-                            res.json({
-                    message: 'Already Exist'
-                })
-                }else {
-                            res.json({
-                    message: 'added na boi'
-                })
+                    return res.json({
+                        message: 'Error in adding user'
+                    })
                 }
+                res.json({
+                    message: 'Successful adding new user. USERNAME:' + usernameInput
+                })
             })
         }
     })
