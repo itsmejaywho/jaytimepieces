@@ -262,32 +262,51 @@ input {
 #signupForm {
     display: flex;
     height: 100vh;
-    /* background-color: black; */
-    align-items: center;
-    justify-content: center;
+    background-color: #2c2638;
+    gap: 10px;
+    padding: 10px;
+    color: #b0aeb4;
 }
 
-#signupForm form input {
-    border:1px solid black;
-    
-}
-
-.userSignup {
-    background-color: red;
+.signupInputs {
+    /* background-color: #353535; */
     padding-top: 20px;
     position: relative;
+    margin-top: 15px;
 }
 
-.userSignup input {
+.signupInputs input {
     padding: 10px;
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #3c364c;
+    font-size: .9rem;
 }
 
-.userSignup label {
+.signupInputs label {
     position: absolute;
-    left: 0;
+    left: 10px;
+    top: 35px;
+    transition: .3s ease-out;
+    font-size: .8rem;
+    word-spacing: 2px;
 }
 
+.signupInputs:has(input:focus) label,
+.signupInputs:has(input:not(:placeholder-shown)) label {
+    top:-4px;
+    color: white;
+    left: 5px;
+}
 
-.userSignup:has(input:focus) label, .userSignup:has(input:not(:placeholder-shown)) label {
-    left: 100px
+#signUpsubmit {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #6d54b5;
+}
+
+#signUpsubmit:hover {
+    background-color: #4b3a7f;
 }

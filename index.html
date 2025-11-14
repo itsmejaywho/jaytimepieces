@@ -132,21 +132,42 @@
     </div>
     
     <div id="signupForm">
-        <form action="" class="h-[75%] w-[90%] bg-red-100 flex">
+        <div class="h-full w-[50%] "></div>
+        <div class="h-full w-[50%]">
+            <form action="" class="h-full w-full flex flex-col">
+                <div class="h-[20%] w-full flex flex-col items-center justify-center">
+                    <p class="text-[2rem] font-medium">Create an account</p>
+                    <div class="flex gap-2 text-[.8rem]">
+                        <p>Already have an account?</p>
+                        <p>Log in</p>
+                    </div>
+                </div>
+                <div class=" w-full flex gap-2 flex-wrap justify-center">
+                    <div class=" w-[45%] signupInputs">
+                        <input type="text" id="usernameSignup" placeholder=" ">
+                        <label for="usernameSignup" class="text-[#746f82]">Username</label>
+                    </div>
+                    <div class=" w-[45%] signupInputs">
+                        <input type="text" id="firstnameSignup" placeholder=" ">
+                        <label for="firstnameSignup" class="text-[#746f82]">First name</label>
+                    </div>
+                    <div class=" w-[45%] signupInputs">
+                        <input type="text" id="lastnameSignup" placeholder=" ">
+                        <label for="lastnameSignup" class="text-[#746f82]">Last name</label>
+                    </div>
+                    <div class=" w-[45%] signupInputs">
+                        <input type="Password" id="passwordSignup" placeholder=" ">
+                        <label for="passwordSignup" class="text-[#746f82]">Password</label>
+                    </div>
 
-            <div class="userSignup">
-                <input type="text" id="usernameSignup" placeholder=" " >
-                <label for="usernameSignup">Username</label>
-            </div>
-<!-- 
-            <input type="text" id="usernameSignup" placeholder="Username">
-            <input type="text" id="firstnameSignup" placeholder="Firstname">
-            <input type="text" id="lastnameSignup" placeholder="Lastname">
-            <input type="text" id="passwordSignup" placeholder="Password"> -->
-            <!-- <button type="submit" id="signUpsubmit">OKAY NA BA? -->
-            <!-- </button> -->
-        </form>
-    </div> 
+                    <button class=" tracking-[5px] w-[90%] bg-red-100" id="signUpsubmit">
+                        Create account
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>  
     
     
     <script src="./frontend/script.js"></script>
