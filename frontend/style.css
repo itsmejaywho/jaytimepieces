@@ -325,6 +325,6 @@ input {
 
 #myDashboard {
     display: none;
-    height: 1vh;
+    height: 100vh;
     background-color: red;
 }

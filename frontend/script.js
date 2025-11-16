@@ -23,51 +23,109 @@ let totalRating = 0
 const users = peopleRate.length
 const loginbtn = document.getElementById('loginBtn')
 const signupForm = document.getElementById('signupForm')
-
 const usernameSignup = document.getElementById('usernameSignup')
 const firstnameSignup = document.getElementById('firstnameSignup')
 const lastnameSignup = document.getElementById('lastnameSignup')
 const passwordSignup = document.getElementById('passwordSignup')
 const signUpsubmit = document.getElementById('signUpsubmit')
-
 const hideorshow = document.getElementById('hideorshow');
 const hideorshowText = document.getElementById('hideorshowText')
 const loginLogo = document.getElementById('loginLogo')
 const clickToLog = document.getElementById('clickToLog')
 const userHello = document.getElementById('userHello')
 const myDashboard = document.getElementById('myDashboard')
+const logout = document.getElementById('logout');
 
 
+logout.addEventListener('click', (e)=>{
+    e.preventDefault()
+    localStorage.removeItem('userDATA')
+    setView('login')
+})
+
+
+//CLICK TO GO TO LOGIN PAGE
+logReg.addEventListener('click', (e) => {
+    e.preventDefault();
+    setView('login')
+
+})
+
+// CLICK TO GO TO REGISTRATION
 signup.addEventListener('click', (e) => {
     e.preventDefault();
-    login.style.display = 'none'
-    signupForm.style.display = 'flex'
+    setView('signupForm')
 })
 
-
+// CLICK TO GO TO LOGIN FROM REGISTRATION FORM
 clickToLog.addEventListener('click', (e)=> {
     e.preventDefault();
-    signupForm.style.display = 'none';
-    login.style.display = 'flex'
+    setView('login')
 })
 
-
-loginbtn.addEventListener('click', (e)=> {
+// CLICK TO GO TO LANDING PAGE FROM LOGIN PAGE
+loginLogo.addEventListener('click', (e)=> {
     e.preventDefault();
-    getLogin();
-
-    const userData = JSON.parse(localStorage.getItem('userDATA'));
-    myDashboard.style.display = 'flex'
-    login.style.display = 'none'
-    userHello.innerText = `Hello + ${userData.firstName}`
-
-    console.log(userData)
+    setView('frontPage')
 })
+
+
+
+function setView(where){
+    frontPage.style.display = 'none';
+    login.style.display = 'none';
+    signupForm.style.display = 'none';
+    myDashboard.style.display = 'none';
+
+    if (where === 'frontPage') frontPage.style.display = 'flex';
+    if (where === 'login') login.style.display = 'flex';
+    if (where === 'signupForm') signupForm.style.display = 'flex';
+    if (where === 'myDashboard') myDashboard.style.display = 'flex';
+
+    localStorage.setItem('whereAmI', where)
+}
+
+    window.addEventListener('DOMContentLoaded', ()=> {
+        const savedView = localStorage.getItem('whereAmI') || 'frontPage'
+        
+
+        if(savedView === 'myDashboard'){
+            displayUser();
+        }
+
+        setView(savedView)
+    })
+
+
+//For DASHBOARD
+function displayUser(){
+        const userData = JSON.parse(localStorage.getItem('userDATA'))
+        setView('myDashboard')
+        userHello.innerText = userData.firstName
+        console.log(userData)
+}
+
+
+
+
+
+loginbtn.addEventListener('click', async (e)=> {
+    e.preventDefault();
+
+    const result = await getLogin();
+    if(result === true){ 
+        displayUser();
+    }
+})
+
+
 
 signUpsubmit.addEventListener('click', (e)=> {
     e.preventDefault();
     signUpRegistration();
 })
+
+
 
 
 
@@ -115,9 +173,10 @@ async function getLogin() {
 
     if(data.user){
         localStorage.setItem('userDATA', JSON.stringify(data.user));
-        
+        return true
     }else {
         alert('try again')
+        return false
     }
 }
 
@@ -144,13 +203,6 @@ rating.innerText =  `${totalRating} out of ${stars}`;
 howManyRate.innerText = `from ${peopleRate.length} reviews Worldwide`;
 
 
-logReg.addEventListener('click', () => {
-
-    frontPage.style.display = 'none'
-    login.style.display  =  'flex'
-
-})
-
 
 show_password.addEventListener('click', () => {
 
@@ -174,10 +226,4 @@ brandWatch.forEach(brandName => {
     watchBrandDiv.className = 'watchBrandNames';
     brands.appendChild(watchBrandDiv)
 
-})
-
-loginLogo.addEventListener('click', (e)=> {
-    e.preventDefault();
-    login.style.display = 'none';
-    frontPage.style.display ='flex'
 })
