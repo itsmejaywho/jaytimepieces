@@ -37,7 +37,8 @@ app.post('/signup', (req, res)=> {
 
         if(checkUserResponse.length > 0){
             return res.json({
-                message: 'User Already Exist'
+                message: 'User Already Exist',
+                success: "Failed"
             })
         }else{
             connection.query(addUser, [usernameInput, firstnameInput, lastnameInput, passwordInput], (err, addUserResponse)=>{
@@ -47,7 +48,8 @@ app.post('/signup', (req, res)=> {
                     })
                 }
                 res.json({
-                    message: 'Successful adding new user. USERNAME:' + usernameInput
+                    message: 'Successful adding new user. USERNAME:' + usernameInput,
+                    success: "Success"
                 })
             })
         }
@@ -60,7 +62,7 @@ app.post('/login', (req, res) => {
 
 
     const {user_name, user_password, message} = req.body
-
+    console.log(user_name)
     const getUserInfo = 'SELECT * FROM ecommerce_users WHERE userName =? and userPassword =?';
 
     connection.query(getUserInfo, [user_name, user_password], (err, response) => {

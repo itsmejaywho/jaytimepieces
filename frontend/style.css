@@ -194,7 +194,7 @@ button {
 /* FRONTPAGE */
 
 #myfront {
-    display:none
+    display:flex;
 }
 
 /* LOGIN */
@@ -215,6 +215,11 @@ input {
 
 #loginForm{
     padding: 20px ;
+}
+
+#signup:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .userForm {
@@ -260,7 +265,7 @@ input {
 /* registration */
 
 #signupForm {
-    display: flex;
+    display: none;
     height: 100vh;
     background-color: #2c2638;
     gap: 10px;
@@ -309,4 +314,17 @@ input {
 
 #signUpsubmit:hover {
     background-color: #4b3a7f;
+}
+
+#clickToLog:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* DAASHBOARD */
+
+#myDashboard {
+    display: none;
+    height: 1vh;
+    background-color: red;
 }

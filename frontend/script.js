@@ -24,7 +24,6 @@ const users = peopleRate.length
 const loginbtn = document.getElementById('loginBtn')
 const signupForm = document.getElementById('signupForm')
 
-
 const usernameSignup = document.getElementById('usernameSignup')
 const firstnameSignup = document.getElementById('firstnameSignup')
 const lastnameSignup = document.getElementById('lastnameSignup')
@@ -34,24 +33,42 @@ const signUpsubmit = document.getElementById('signUpsubmit')
 const hideorshow = document.getElementById('hideorshow');
 const hideorshowText = document.getElementById('hideorshowText')
 const loginLogo = document.getElementById('loginLogo')
+const clickToLog = document.getElementById('clickToLog')
+const userHello = document.getElementById('userHello')
+const myDashboard = document.getElementById('myDashboard')
 
 
-signup.addEventListener('click', () => {
+signup.addEventListener('click', (e) => {
+    e.preventDefault();
     login.style.display = 'none'
     signupForm.style.display = 'flex'
 })
 
 
+clickToLog.addEventListener('click', (e)=> {
+    e.preventDefault();
+    signupForm.style.display = 'none';
+    login.style.display = 'flex'
+})
+
 
 loginbtn.addEventListener('click', (e)=> {
     e.preventDefault();
     getLogin();
+
+    const userData = JSON.parse(localStorage.getItem('userDATA'));
+    myDashboard.style.display = 'flex'
+    login.style.display = 'none'
+    userHello.innerText = `Hello + ${userData.firstName}`
+
+    console.log(userData)
 })
 
 signUpsubmit.addEventListener('click', (e)=> {
     e.preventDefault();
     signUpRegistration();
 })
+
 
 
 async function signUpRegistration() {
@@ -71,13 +88,12 @@ async function signUpRegistration() {
 
     const addedData = await requestSignup.json();
 
-    console.log(addedData.message)
+    console.log(addedData.success)
+
+    if(addedData.success === "Failed") {
+        usernameSignup.style.border = "1px solid red"
+    }
 }
-
-
-
-
-
 
 
 async function getLogin() {
@@ -98,13 +114,12 @@ async function getLogin() {
 
 
     if(data.user){
-        alert('login successful')
+        localStorage.setItem('userDATA', JSON.stringify(data.user));
+        
     }else {
         alert('try again')
     }
 }
-
-
 
 
 peopleRate.forEach(rate => {
@@ -161,3 +176,8 @@ brandWatch.forEach(brandName => {
 
 })
 
+loginLogo.addEventListener('click', (e)=> {
+    e.preventDefault();
+    login.style.display = 'none';
+    frontPage.style.display ='flex'
+})
