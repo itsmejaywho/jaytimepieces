@@ -41,6 +41,9 @@ logout.addEventListener('click', (e)=>{
     e.preventDefault()
     localStorage.removeItem('userDATA')
     setView('login')
+    console.log(localStorage)
+    username.value = ""
+    password.value = ""
 })
 
 
@@ -48,7 +51,6 @@ logout.addEventListener('click', (e)=>{
 logReg.addEventListener('click', (e) => {
     e.preventDefault();
     setView('login')
-
 })
 
 // CLICK TO GO TO REGISTRATION
@@ -85,16 +87,16 @@ function setView(where){
     localStorage.setItem('whereAmI', where)
 }
 
-    window.addEventListener('DOMContentLoaded', ()=> {
-        const savedView = localStorage.getItem('whereAmI') || 'frontPage'
-        
+window.addEventListener('DOMContentLoaded', ()=> {
+    const savedView = localStorage.getItem('whereAmI') || 'frontPage'
+    
 
-        if(savedView === 'myDashboard'){
-            displayUser();
-        }
+    if(savedView === 'myDashboard'){
+        displayUser();
+    }
 
-        setView(savedView)
-    })
+    setView(savedView)
+})
 
 
 //For DASHBOARD
@@ -227,3 +229,30 @@ brandWatch.forEach(brandName => {
     brands.appendChild(watchBrandDiv)
 
 })
+
+
+
+//GET BRANDS
+
+async function getWatches() {
+    const response = await fetch(
+        'http://localhost:3000/watches?message=HELLO+BACKEND+KUHA+LANG+AKO+WATCHES'
+    );
+
+    const data = await response.json();
+    
+    const watchesBrand = data.watches_brand
+
+    console.log(watchesBrand)
+
+    console.log(watchesBrand.length)
+
+watchesBrand.forEach((brand) => {
+    const div = document.createElement('div');
+    div.textContent = brand.watch_brand; 
+
+    myDashboard.appendChild(div); 
+});
+}
+
+getWatches()

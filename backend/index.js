@@ -85,7 +85,25 @@ app.post('/login', (req, res) => {
 })
 
 
+app.get('/watches', (req, res) => {
+    const { message } = req.query;
+    console.log(message);
 
+    const getWatches = 'Select watch_brand FROM watches';
+
+    connection.query(getWatches, (err, response)=> {
+        
+        if(err){
+            console.log(err)
+        }
+
+        res.json({
+           watches_brand: response
+        })
+    })
+
+
+});
 
 
 app.listen(PORT, ()=> {
