@@ -32,18 +32,27 @@ const hideorshow = document.getElementById('hideorshow');
 const hideorshowText = document.getElementById('hideorshowText')
 const loginLogo = document.getElementById('loginLogo')
 const clickToLog = document.getElementById('clickToLog')
-const userHello = document.getElementById('userHello')
+// const userHello = document.getElementById('userHello')
 const myDashboard = document.getElementById('myDashboard')
+const costumerName = document.getElementById('costumerName')
+const profile = document.getElementById('profile')
+const dashboardButton = document.getElementById('mydashboardButton');
 const logout = document.getElementById('logout');
+
+profile.addEventListener('click', ()=> {  
+    dashboardButton.classList.toggle('hidden')
+})
+
 
 
 logout.addEventListener('click', (e)=>{
     e.preventDefault()
     localStorage.removeItem('userDATA')
     setView('login')
-    console.log(localStorage)
     username.value = ""
     password.value = ""
+
+    console.log(localStorage)
 })
 
 
@@ -84,11 +93,11 @@ function setView(where){
     if (where === 'signupForm') signupForm.style.display = 'flex';
     if (where === 'myDashboard') myDashboard.style.display = 'flex';
 
-    localStorage.setItem('whereAmI', where)
+    sessionStorage.setItem('whereAmI', where)
 }
 
 window.addEventListener('DOMContentLoaded', ()=> {
-    const savedView = localStorage.getItem('whereAmI') || 'frontPage'
+    const savedView = sessionStorage.getItem('whereAmI') || 'frontPage'
     
 
     if(savedView === 'myDashboard'){
@@ -99,15 +108,15 @@ window.addEventListener('DOMContentLoaded', ()=> {
 })
 
 
+// localStorage.removeItem('whereAmI')
+
 //For DASHBOARD
 function displayUser(){
         const userData = JSON.parse(localStorage.getItem('userDATA'))
         setView('myDashboard')
-        userHello.innerText = userData.firstName
-        console.log(userData)
+        costumerName.innerText = userData.firstName 
+        profile.innerText = userData.firstName.charAt(0).toUpperCase()
 }
-
-
 
 
 
@@ -148,8 +157,6 @@ async function signUpRegistration() {
 
     const addedData = await requestSignup.json();
 
-    console.log(addedData.success)
-
     if(addedData.success === "Failed") {
         usernameSignup.style.border = "1px solid red"
     }
@@ -169,12 +176,11 @@ async function getLogin() {
             message: 'from frontend'
         })
     });
-    const data = await requestLogin.json();
-    console.log(data)
-
+    const data = await requestLogin.json()
 
     if(data.user){
         localStorage.setItem('userDATA', JSON.stringify(data.user));
+        console.log(data.user)
         return true
     }else {
         alert('try again')
@@ -217,9 +223,6 @@ show_password.addEventListener('click', () => {
         hideorshowText.innerText = `Show Password`
         hideorshow.src = './watches/show.svg'
     }
-
-
-    console.log(password.type)
 })
 
 brandWatch.forEach(brandName => {
@@ -230,29 +233,27 @@ brandWatch.forEach(brandName => {
 
 })
 
-
-
 //GET BRANDS
 
-async function getWatches() {
-    const response = await fetch(
-        'http://localhost:3000/watches?message=HELLO+BACKEND+KUHA+LANG+AKO+WATCHES'
-    );
+// async function getWatches() {
+//     const response = await fetch(
+//         'http://localhost:3000/watches?message=HELLO+BACKEND+KUHA+LANG+AKO+WATCHES'
+//     );
 
-    const data = await response.json();
+//     const data = await response.json();
     
-    const watchesBrand = data.watches_brand
+//     const watchesBrand = data.watches_brand
 
-    console.log(watchesBrand)
+//     console.log(watchesBrand)
 
-    console.log(watchesBrand.length)
+//     console.log(watchesBrand.length)
 
-watchesBrand.forEach((brand) => {
-    const div = document.createElement('div');
-    div.textContent = brand.watch_brand; 
+// watchesBrand.forEach((brand) => {
+//     const div = document.createElement('div');
+//     div.textContent = brand; 
 
-    myDashboard.appendChild(div); 
-});
-}
+//     myDashboard.appendChild(div); 
+// });
+// }
 
-getWatches()
+// getWatches()

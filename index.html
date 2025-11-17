@@ -174,8 +174,48 @@
     <!-- dashboard -->
 
     <div id="myDashboard">
-        <p id="userHello"></p>
-        <button id="logout">logout</button>
+        <div class="h-[10%] w-full flex items-center gap-2">
+            <div class="w-[20%] h-full bg-black"></div>
+            <div class="w-[60%] h-full bg-black"></div>
+            <div class="w-[20%] h-full flex items-center justify-center  profileDiv"> 
+                <div id="profile"class="w-[50px] h-[50px] rounded-full bg-black font-bold text-[1.5rem] flex items-center justify-center text-white">       
+                </div>
+
+                <div class="dashboardButton hidden h-[300px] bg-red-100 w-[200px]" id="mydashboardButton">
+                    <div class="h-[10%] w-full flex gap-2 items-center">
+                        <p class="font-medium">Welcome, </p>
+                        <p id="costumerName" class="font-medium tetx-[.9rem]"></p>
+                    </div>
+                    <div class="border-1 border-gray w-full"></div>
+                    <div class="h-[80%] w-full flex flex-col gap-2">
+                        <button>
+                            <img src="./watches/overview.svg"  class="h-[18px]">
+                            Overview
+                        </button>
+                        <button>
+                            <img src="./watches/wishlist.svg"  class="h-[18px]">
+                            Wishlist
+                        </button>
+                        <button>
+                            <img src="./watches/buy.svg"  class="h-[18px]">
+                            Buy
+                        </button>
+                        <button>
+                            <img src="./watches/sell.svg"  class="h-[18px]">
+                            Sell
+                        </button>
+                        <button>
+                            <img src="./watches/notification.svg"  class="h-[18px]">
+                            Notification
+                        </button>
+                        <button id="logout"> 
+                            <img src="./watches/logout.svg"  class="h-[18px]">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     

@@ -326,5 +326,31 @@ input {
 #myDashboard {
     display: none;
     height: 100vh;
-    background-color: red;
+}
+
+.profileDiv {
+    position: relative;
+}
+
+.dashboardButton {
+
+    position: absolute;
+    top: 70px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.dashboardButton button {
+    padding: 2px;
+    font-size: .9rem;
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    gap: 2px;
+    align-items: center;
+}
+
+
+.hidden {
+    display: hidden;
 }
