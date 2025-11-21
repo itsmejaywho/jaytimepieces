@@ -53,6 +53,10 @@ logout.addEventListener('click', (e)=>{
     password.value = ""
 
     console.log(localStorage)
+
+    dashboardButton.classList.add('hidden')
+
+    console.log(dashboardButton.classList)
 })
 
 
@@ -114,7 +118,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 function displayUser(){
         const userData = JSON.parse(localStorage.getItem('userDATA'))
         setView('myDashboard')
-        costumerName.innerText = userData.firstName 
+        costumerName.innerText = userData.firstName.charAt(0).toUpperCase() + userData.firstName.slice(1)
         profile.innerText = userData.firstName.charAt(0).toUpperCase()
 }
 
@@ -122,7 +126,7 @@ function displayUser(){
 
 loginbtn.addEventListener('click', async (e)=> {
     e.preventDefault();
-
+    
     const result = await getLogin();
     if(result === true){ 
         displayUser();
@@ -160,8 +164,12 @@ async function signUpRegistration() {
     if(addedData.success === "Failed") {
         usernameSignup.style.border = "1px solid red"
     }
-}
 
+            usernameSignup.value = ''
+            firstnameSignup.value= ''
+            lastnameSignup.value= ''
+            passwordSignup.value= ''
+}
 
 async function getLogin() {
 
@@ -184,6 +192,7 @@ async function getLogin() {
         return true
     }else {
         alert('try again')
+        password.value = ''
         return false
     }
 }

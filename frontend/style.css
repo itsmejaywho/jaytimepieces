@@ -354,3 +354,7 @@ input {
 .hidden {
     display: hidden;
 }
+
+.incorrect {
+    display: hidden;
+}

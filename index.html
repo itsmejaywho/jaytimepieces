@@ -175,13 +175,20 @@
 
     <div id="myDashboard">
         <div class="h-[10%] w-full flex items-center gap-2">
-            <div class="w-[20%] h-full bg-black"></div>
-            <div class="w-[60%] h-full bg-black"></div>
+            <div class="w-[20%] h-full flex justify-end items-center">
+                    <img src="../watches/logo.png" alt="" class="logo">
+            </div>
+            <div class="w-[60%] h-full searchDiv">
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search your favorite watch" id="searchWatch" class="text-color">
+                </div>
+            </div>
             <div class="w-[20%] h-full flex items-center justify-center  profileDiv"> 
                 <div id="profile"class="w-[50px] h-[50px] rounded-full bg-black font-bold text-[1.5rem] flex items-center justify-center text-white">       
                 </div>
 
-                <div class="dashboardButton hidden h-[300px] bg-red-100 w-[200px]" id="mydashboardButton">
+                <div class="dashboardButton hidden rounded-[10px] h-[320px]  w-[200px]" id="mydashboardButton">
                     <div class="h-[10%] w-full flex gap-2 items-center">
                         <p class="font-medium">Welcome, </p>
                         <p id="costumerName" class="font-medium tetx-[.9rem]"></p>
