@@ -43,6 +43,42 @@ const myOverview = document.getElementById('myOverview')
 const overviewProfile = document.getElementById('overviewProfile')
 const overViewFullName = document.getElementById('overViewFullName')
 const overviewId = document.getElementById('overviewId')
+const editUsername = document.getElementById('editUsername')
+const confirmEdit = document.getElementById('confirmEdit')
+
+
+
+confirmEdit.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('click');
+    getUpdate();
+
+})
+
+async function getUpdate() {
+    const userData = getUserData()
+    console.log(editUsername.value)
+
+    console.log(userData.userName)
+    const update = await fetch('http://localhost:3000/update', {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: 'helo backend',
+            prevUsername: userData.userName,
+            userName: editUsername.value
+        })
+    })
+
+    const userUpdate = await update.json();
+
+    if(userUpdate.message === 'success') {
+        localStorage.setItem('userDATA', JSON.stringify(userUpdate.user));
+    }
+}
+
 
 
 function getUserData() {
@@ -56,7 +92,7 @@ function displayOverview() {
     overviewProfile.innerText = user.firstName.charAt(0).toUpperCase()
     myOverview.style.display = 'flex'
     overViewFullName.innerText = `${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} ${user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}`
-    overviewId.innerText = `Customer id: ${user.user_id}`
+    editUsername.value = user.userName  
     console.log(user)
 
 }
@@ -83,11 +119,9 @@ logout.addEventListener('click', (e)=>{
     username.value = ""
     password.value = ""
 
-    console.log(localStorage)
 
    removeProfile()
 
-    console.log(dashboardButton.classList)
 })
 
 

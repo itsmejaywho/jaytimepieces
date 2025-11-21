@@ -85,6 +85,42 @@ app.post('/login', (req, res) => {
 })
 
 
+console.log('hello')
+
+app.put('/update', (req, res) => {
+    const {message, prevUsername, userName} = req.body;
+    console.log(prevUsername);
+    console.log(userName)
+    const updateUser = 'UPDATE ecommerce_users SET userName = ? where userName = ?'
+
+    connection.query(updateUser, [userName, prevUsername], (err, response) => {
+        if(err){
+            console.log(err)
+        }
+
+        if(response.affectedRows > 0){
+
+            const getUser = 'Select * From ecommerce_users where userName = ?'
+
+            connection.query(getUser, [userName], (err, row) => {
+                if(err){
+                    console.log(err)
+                }
+
+                res.json({
+                    message: 'success',
+                    user: row[0]
+                })
+            })
+
+        }else {
+            console.log('error toy')
+        }
+
+    })
+})
+
+
 app.get('/watches', (req, res) => {
     const { message } = req.query;
     console.log(message);

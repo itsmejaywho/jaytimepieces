@@ -365,7 +365,11 @@ input {
     width: 100%;
     background-color: black;
     padding: 20px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+}
+
+.editInfo {
+    padding: 10px;
 }
