@@ -38,11 +38,42 @@ const costumerName = document.getElementById('costumerName')
 const profile = document.getElementById('profile')
 const dashboardButton = document.getElementById('mydashboardButton');
 const logout = document.getElementById('logout');
+const overview = document.getElementById('overview')
+const myOverview = document.getElementById('myOverview')
+const overviewProfile = document.getElementById('overviewProfile')
+const overViewFullName = document.getElementById('overViewFullName')
+const overviewId = document.getElementById('overviewId')
+
+
+function getUserData() {
+    return JSON.parse(localStorage.getItem('userDATA'))
+}
+
+
+function displayOverview() {
+    removeProfile();
+    const user = getUserData()
+    overviewProfile.innerText = user.firstName.charAt(0).toUpperCase()
+    myOverview.style.display = 'flex'
+    overViewFullName.innerText = `${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} ${user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}`
+    overviewId.innerText = `Customer id: ${user.user_id}`
+    console.log(user)
+
+}
 
 profile.addEventListener('click', ()=> {  
     dashboardButton.classList.toggle('hidden')
 })
 
+function removeProfile() {
+    dashboardButton.classList.add('hidden')
+}
+
+
+overview.addEventListener('click', (e)=> {
+    e.preventDefault();
+    displayOverview();
+})
 
 
 logout.addEventListener('click', (e)=>{
@@ -54,7 +85,7 @@ logout.addEventListener('click', (e)=>{
 
     console.log(localStorage)
 
-    dashboardButton.classList.add('hidden')
+   removeProfile()
 
     console.log(dashboardButton.classList)
 })
@@ -83,7 +114,6 @@ loginLogo.addEventListener('click', (e)=> {
     e.preventDefault();
     setView('frontPage')
 })
-
 
 
 function setView(where){
@@ -116,7 +146,7 @@ window.addEventListener('DOMContentLoaded', ()=> {
 
 //For DASHBOARD
 function displayUser(){
-        const userData = JSON.parse(localStorage.getItem('userDATA'))
+        const userData = getUserData()
         setView('myDashboard')
         costumerName.innerText = userData.firstName.charAt(0).toUpperCase() + userData.firstName.slice(1)
         profile.innerText = userData.firstName.charAt(0).toUpperCase()

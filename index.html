@@ -195,7 +195,7 @@
                     </div>
                     <div class="border-1 border-gray w-full"></div>
                     <div class="h-[80%] w-full flex flex-col gap-2">
-                        <button>
+                        <button id="overview">
                             <img src="./watches/overview.svg"  class="h-[18px]">
                             Overview
                         </button>
@@ -219,6 +219,24 @@
                             <img src="./watches/logout.svg"  class="h-[18px]">
                             Logout
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myOverview">   
+            <div class="w-[80%] h-full bg-blue-100">
+                <div class="h-[10%] w-full">
+                    <p class="text-[2rem] font-medium tracking-[5px]">Profile</p>
+                </div>
+                <div class=" flex h-[30%] w-full">
+                    <div class="w-[20%] h-full flex items-center  justify-center">
+                        <div class="h-[180px] w-[180px] rounded-full border flex items-center bg-black justify-center" >
+                            <p id="overviewProfile" class="text-white text-[5rem] font-bold "></p>
+                        </div>
+                    </div>
+                    <div class="w-[80%] h-full flex flex-col justify-center">
+                        <p  id="overViewFullName" class="text-[2rem]"></p>
+                        <p id="overviewId"></p>
                     </div>
                 </div>
             </div>
