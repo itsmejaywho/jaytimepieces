@@ -240,32 +240,39 @@
                     </div>
                 </div>
 
-                <div class="editInfo h-[60%] w-full">
-                    <div class="loginInfo h-[200px]  border flex flex-col w-[500px] flex flex-col">    
+                <div class="editInfo h-[60%] w-full ">
+                    <div class="loginInfo h-[250px] rounded-[10px]  border border-[#cccccc] flex flex-col w-[500px]">    
                         <div class="h-[10%] w-full flex justify-between items-center ">
-                            <p class="text-[1.5rem]">Login Information</p>
-                            <button id="editButton">edit</button>
+                            <p class="text-[1.2rem]">Login Information</p>
+                            <button id="editButton">
+                                <img src='./watches/edit.svg' class="h-[30px] w-[30px]" alt="">
+                            </button>
                         </div>
 
-                        <div class="flex" >
-                            <div class="w-[50%] h-full">
-                                <p>Username</p>
+                        <div class="w-full  h-[50%] flex flex-col text-[.9rem] ">
+                            <div class="flex h-[50%] w-full text-[.9rem]" >
+                                <div class="w-[50%] h-full">
+                                    <p>Username</p>
+                                </div>
+                                <div class="w-[50%] h-full">
+                                    <input type="text" class="w-full bg-blue-500" id="editUsername" disabled>
+                                </div>
                             </div>
-                            <div class="w-[50%] h-full">
-                                <input type="text" class="bg-red-100 w-full" id="editUsername" disabled>
+
+                            <div class="flex" >
+                                <div class="w-[50%]">
+                                    <p class="bg-red-100">Password</p>
+                                </div>
+                                <div class="w-[50%] h-full flex">
+                                    <input type="password" class=" w-full" id="editPassword" disabled>
+                                    <img src="./watches/show.svg" id="eye" class="bg-blue-100 h-[15px]" alt="">
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex" >
-                            <div class="w-[50%] h-full">
-                                <p>Password</p>
-                            </div>
-                            <div class="w-[50%] h-full">
-                                <input type="text" class=" w-full" id="editPassword" disabled>
-                            </div>
+                        <div class="h-[30%] w-full flex items-center justify-center">
+                            <button id="confirmEdit">Save changes</button>
                         </div>
-
-                        <button id="confirmEdit">CLICK ME</button>
                     </div>
                 </div>
             </div>

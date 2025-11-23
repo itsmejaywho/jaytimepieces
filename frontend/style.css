@@ -375,4 +375,14 @@ input {
 
 .loginInfo {
     gap: 20px;
+    align-items: center;
+    padding: 10px;
+}
+
+#confirmEdit {
+    background-color: #1a253c;
+    padding: 10px;
+    color: white;
+    width: 50%;
+    border-radius: 10px;
 }

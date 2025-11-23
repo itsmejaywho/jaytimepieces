@@ -47,7 +47,31 @@ const editUsername = document.getElementById('editUsername')
 const confirmEdit = document.getElementById('confirmEdit')
 const editPassword = document.getElementById('editPassword')
 const editButton = document.getElementById('editButton')
+const eye = document.getElementById('eye')
 
+
+
+function showOrHide() {
+    const value = editPassword.type
+
+    if(value === 'text'){
+        eye.src = '/watches/hide.svg'
+    }else if(value === 'password'){
+        eye.src = '/watches/show.svg'
+    }
+}
+
+eye.addEventListener('mouseover', (e)=> {
+    e.preventDefault();
+    editPassword.type = 'text'
+    showOrHide();
+})
+
+eye.addEventListener('mouseleave', (e) => {
+    e.preventDefault();
+    editPassword.type = 'password'
+    showOrHide();
+})
 
 editButton.addEventListener('click', (e)=> {
     e.preventDefault();
@@ -88,6 +112,9 @@ async function getUpdate() {
     const userUpdate = await update.json();
 
     if(userUpdate.message === 'success') {
+       
+       alert('Account information updated');
+       disableInput();
         localStorage.setItem('userDATA', JSON.stringify(userUpdate.user));
     }
 }

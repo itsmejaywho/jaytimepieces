@@ -93,6 +93,8 @@ app.put('/update', (req, res) => {
     console.log(userName)
     const updateUser = 'UPDATE ecommerce_users SET userName = ?, userPassword = ? where userName = ?'
 
+    
+
     connection.query(updateUser, [userName, userPassword, prevUsername], (err, response) => {
         if(err){
             console.log(err)
