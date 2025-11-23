@@ -45,7 +45,19 @@ const overViewFullName = document.getElementById('overViewFullName')
 const overviewId = document.getElementById('overviewId')
 const editUsername = document.getElementById('editUsername')
 const confirmEdit = document.getElementById('confirmEdit')
+const editPassword = document.getElementById('editPassword')
+const editButton = document.getElementById('editButton')
 
+
+editButton.addEventListener('click', (e)=> {
+    e.preventDefault();
+    disableInput();    
+})
+
+function disableInput() {
+    editUsername.disabled = !editUsername.disabled;
+    editPassword.disabled = !editPassword.disabled;
+}
 
 
 confirmEdit.addEventListener('click', (e) => {
@@ -57,7 +69,7 @@ confirmEdit.addEventListener('click', (e) => {
 
 async function getUpdate() {
     const userData = getUserData()
-    console.log(editUsername.value)
+    console.log(userData.userPassword)
 
     console.log(userData.userName)
     const update = await fetch('http://localhost:3000/update', {
@@ -68,7 +80,8 @@ async function getUpdate() {
         body: JSON.stringify({
             message: 'helo backend',
             prevUsername: userData.userName,
-            userName: editUsername.value
+            userName: editUsername.value,
+            userPassword: editPassword.value
         })
     })
 
@@ -93,6 +106,7 @@ function displayOverview() {
     myOverview.style.display = 'flex'
     overViewFullName.innerText = `${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} ${user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}`
     editUsername.value = user.userName  
+    editPassword.value = user.userPassword
     console.log(user)
 
 }
@@ -103,6 +117,7 @@ profile.addEventListener('click', ()=> {
 
 function removeProfile() {
     dashboardButton.classList.add('hidden')
+    myOverview.style.display = 'none'
 }
 
 
@@ -118,9 +133,8 @@ logout.addEventListener('click', (e)=>{
     setView('login')
     username.value = ""
     password.value = ""
-
-
-   removeProfile()
+    disableInput();
+    removeProfile()
 
 })
 

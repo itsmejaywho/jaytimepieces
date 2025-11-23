@@ -88,12 +88,12 @@ app.post('/login', (req, res) => {
 console.log('hello')
 
 app.put('/update', (req, res) => {
-    const {message, prevUsername, userName} = req.body;
+    const {message, prevUsername, userName, userPassword} = req.body;
     console.log(prevUsername);
     console.log(userName)
-    const updateUser = 'UPDATE ecommerce_users SET userName = ? where userName = ?'
+    const updateUser = 'UPDATE ecommerce_users SET userName = ?, userPassword = ? where userName = ?'
 
-    connection.query(updateUser, [userName, prevUsername], (err, response) => {
+    connection.query(updateUser, [userName, userPassword, prevUsername], (err, response) => {
         if(err){
             console.log(err)
         }
