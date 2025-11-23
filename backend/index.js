@@ -25,7 +25,6 @@ app.get('/', (req, res) => {
 
 
 app.post('/signup', (req, res)=> {
-
     const {usernameInput, firstnameInput, lastnameInput, passwordInput} = req.body
     const checkUser = 'Select * FROM ecommerce_users WHERE userName = ?'
     const addUser = 'INSERT INTO ecommerce_users (userName, firstName, lastName, userPassword) VALUES (?, ?, ?, ?)'
@@ -60,7 +59,6 @@ app.post('/signup', (req, res)=> {
 
 app.post('/login', (req, res) => {
 
-
     const {user_name, user_password, message} = req.body
     console.log(user_name)
     const getUserInfo = 'SELECT * FROM ecommerce_users WHERE userName =? and userPassword =?';
@@ -85,15 +83,13 @@ app.post('/login', (req, res) => {
 })
 
 
-console.log('hello')
-
 app.put('/update', (req, res) => {
     const {message, prevUsername, userName, userPassword} = req.body;
     console.log(prevUsername);
     console.log(userName)
     const updateUser = 'UPDATE ecommerce_users SET userName = ?, userPassword = ? where userName = ?'
 
-    
+
 
     connection.query(updateUser, [userName, userPassword, prevUsername], (err, response) => {
         if(err){

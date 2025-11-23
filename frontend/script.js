@@ -49,7 +49,7 @@ const editPassword = document.getElementById('editPassword')
 const editButton = document.getElementById('editButton')
 const eye = document.getElementById('eye')
 
-
+let oldPassword = ''
 
 function showOrHide() {
     const value = editPassword.type
@@ -76,6 +76,8 @@ eye.addEventListener('mouseleave', (e) => {
 editButton.addEventListener('click', (e)=> {
     e.preventDefault();
     disableInput();    
+
+    const user = getUserData();
 })
 
 function disableInput() {
@@ -86,16 +88,18 @@ function disableInput() {
 
 confirmEdit.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('click');
-    getUpdate();
+
+    if(oldPassword === editPassword.value){
+        console.log('New password is same with the older password!')
+    }else {
+        getUpdate()
+    }
 
 })
 
 async function getUpdate() {
     const userData = getUserData()
-    console.log(userData.userPassword)
 
-    console.log(userData.userName)
     const update = await fetch('http://localhost:3000/update', {
         method: 'PUT',
         headers: {
@@ -113,9 +117,10 @@ async function getUpdate() {
 
     if(userUpdate.message === 'success') {
        
-       alert('Account information updated');
-       disableInput();
+         alert('Account information updated');
+        disableInput();
         localStorage.setItem('userDATA', JSON.stringify(userUpdate.user));
+        oldPassword = editPassword.value; 
     }
 }
 
@@ -134,8 +139,7 @@ function displayOverview() {
     overViewFullName.innerText = `${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} ${user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}`
     editUsername.value = user.userName  
     editPassword.value = user.userPassword
-    console.log(user)
-
+    overviewId.innerText=`Customer id: ${user.user_id}`
 }
 
 profile.addEventListener('click', ()=> {  
@@ -293,6 +297,7 @@ async function getLogin() {
 
     if(data.user){
         localStorage.setItem('userDATA', JSON.stringify(data.user));
+        oldPassword = data.user.userPassword
         console.log(data.user)
         return true
     }else {
