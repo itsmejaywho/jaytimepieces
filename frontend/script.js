@@ -48,6 +48,11 @@ const confirmEdit = document.getElementById('confirmEdit')
 const editPassword = document.getElementById('editPassword')
 const editButton = document.getElementById('editButton')
 const eye = document.getElementById('eye')
+const editBilling = document.getElementById('editBilling')
+const userNumber  = document.getElementById('userNumber');
+const userAddress  = document.getElementById('userAddress');
+const confirmBilling = document.getElementById('confirmBilling');
+
 
 let oldPassword = ''
 
@@ -79,6 +84,23 @@ editButton.addEventListener('click', (e)=> {
 
     const user = getUserData();
 })
+
+editBilling.addEventListener('click', (e)=>{
+    e.preventDefault();
+    disableBilling();
+})
+
+confirmBilling.addEventListener('click', (e)=> {
+    e.preventDefault();
+    getBilling()
+})
+
+
+function disableBilling() {
+    userNumber.disabled = !userNumber.disabled;
+    userAddress.disabled = !userAddress.disabled;
+}
+
 
 function disableInput() {
     editUsername.disabled = !editUsername.disabled;
@@ -250,7 +272,20 @@ signUpsubmit.addEventListener('click', (e)=> {
 })
 
 
+async function getBilling() {
+    const billing = await fetch('http://localhost:3000/billing', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        }, 
+        body: JSON.stringify ({
+            message: 'Hello backend',
+            userNumber: userNumber.value,
+            userAddress: userAddress.value
 
+        })
+    })
+}
 
 
 async function signUpRegistration() {
@@ -351,6 +386,10 @@ brandWatch.forEach(brandName => {
     brands.appendChild(watchBrandDiv)
 
 })
+
+
+
+
 
 //GET BRANDS
 

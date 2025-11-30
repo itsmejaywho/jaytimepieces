@@ -139,6 +139,12 @@ app.get('/watches', (req, res) => {
 
 });
 
+app.post('/billing', (req, res)=> {
+    const {message, userNumber, userAddress} = req.body;
+
+    console.log(userNumber)
+})
+
 
 app.listen(PORT, ()=> {
     console.log(`Server running in ${PORT}`)

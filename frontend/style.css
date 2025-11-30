@@ -381,7 +381,7 @@ input {
     padding: 10px;
 }
 
-#confirmEdit {
+#confirmEdit, #confirmBilling {
     background-color: #1a253c;
     padding: 10px;
     color: white;
