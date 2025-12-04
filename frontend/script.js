@@ -92,7 +92,8 @@ editBilling.addEventListener('click', (e)=>{
 
 confirmBilling.addEventListener('click', (e)=> {
     e.preventDefault();
-    getBilling()
+    disableBilling();
+    getBilling();
 })
 
 
@@ -177,6 +178,7 @@ function removeProfile() {
 overview.addEventListener('click', (e)=> {
     e.preventDefault();
     displayOverview();
+    getBillingInfo()
 })
 
 
@@ -273,6 +275,8 @@ signUpsubmit.addEventListener('click', (e)=> {
 
 
 async function getBilling() {
+    const user = getUserData()
+
     const billing = await fetch('http://localhost:3000/billing', {
         method: 'POST',
         headers: {
@@ -280,12 +284,44 @@ async function getBilling() {
         }, 
         body: JSON.stringify ({
             message: 'Hello backend',
+            user_id: user.user_id,
             userNumber: userNumber.value,
             userAddress: userAddress.value
-
         })
     })
+
+        const userBillingInfo = await billing.json();
+
+        console.log(userBillingInfo.message)
+
 }
+
+
+
+async function getBillingInfo() {
+    const user = getUserData();
+
+    console.log(user)
+    
+    const getUserBillingInfo = await fetch('http://localhost:3000/getUserBillingInfo', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'hi backend',
+                user_id: user.user_id
+            })
+        })
+
+
+    const userBillingInfo = await getUserBillingInfo.json();
+
+    console.log(userBillingInfo.message)
+}
+
+
+
 
 
 async function signUpRegistration() {

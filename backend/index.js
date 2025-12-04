@@ -57,6 +57,34 @@ app.post('/signup', (req, res)=> {
 })
 
 
+app.post('/getUserBillingInfo', (req, res)=> {
+    const {message, user_id} = req.body;
+    const getBilling = 'Select * From user_billing WHERE user_id = ?';
+
+
+    connection.query(getBilling, [user_id], (err, answer) => {
+        
+        if(err){
+            console.log(err)
+        }
+
+        if(answer.length > 0){
+            res.json({
+            message: 'Found ya',
+            userBilling: answer[0]
+            })
+        }else {
+           res.json({
+            message: 'Not found ya'
+           })
+        }
+    })
+
+    console.log(message)
+    console.log(user_id)
+})
+
+
 app.post('/login', (req, res) => {
 
     const {user_name, user_password, message} = req.body
@@ -140,10 +168,22 @@ app.get('/watches', (req, res) => {
 });
 
 app.post('/billing', (req, res)=> {
-    const {message, userNumber, userAddress} = req.body;
+    const {message,user_id, userNumber, userAddress} = req.body;
 
-    console.log(userNumber)
+    const billing = 'INSERT INTO user_billing (userNumber, userAddress, user_id) VALUES (?,?,?) '
+    connection.query(billing, [userNumber, userAddress, user_id], (err, result)=> {
+        if(err){
+            console.log(err)
+        }
+
+        res.json({
+            message: 'success'
+            
+        })
+    })
+
 })
+
 
 
 app.listen(PORT, ()=> {

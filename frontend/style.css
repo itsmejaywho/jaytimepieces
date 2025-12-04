@@ -375,6 +375,12 @@ input {
     gap: 10px;
 }
 
+#myOverview input {
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 5px;
+}
+
 .loginInfo {
     gap: 20px;
     align-items: center;
