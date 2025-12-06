@@ -92,8 +92,14 @@ editBilling.addEventListener('click', (e)=>{
 
 confirmBilling.addEventListener('click', (e)=> {
     e.preventDefault();
+    const userBill = JSON.parse(localStorage.getItem('userBill'));
+    console.log(userBill.message)
     disableBilling();
-    getBilling();
+    if(userBill.message === 'Found ya'){
+        alert('already have an accoutn cannot edit')
+    }else if(userBill.message === 'Not found ya'){
+        getBilling();
+    }
 })
 
 
@@ -153,16 +159,23 @@ function getUserData() {
     return JSON.parse(localStorage.getItem('userDATA'))
 }
 
+function getUserBill(){
+    return JSON.parse(localStorage.getItem('userBill'))
+}
+
 
 function displayOverview() {
     removeProfile();
     const user = getUserData()
+    const userBill = getUserBill()
     overviewProfile.innerText = user.firstName.charAt(0).toUpperCase()
     myOverview.style.display = 'flex'
     overViewFullName.innerText = `${user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1)} ${user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}`
     editUsername.value = user.userName  
     editPassword.value = user.userPassword
     overviewId.innerText=`Customer id: ${user.user_id}`
+    userAddress.value = userBill.userAddress
+    userNumber.value = userBill.userNumber
 }
 
 profile.addEventListener('click', ()=> {  
@@ -317,8 +330,14 @@ async function getBillingInfo() {
 
     const userBillingInfo = await getUserBillingInfo.json();
 
-    console.log(userBillingInfo.message)
+    if(userBillingInfo.message === 'Found ya'){
+        localStorage.setItem('userBill', JSON.stringify(userBillingInfo.userBilling))
+    
+    }else if(userBillingInfo.message === 'Not found ya'){
+        alert('not found ya')
+    }
 }
+
 
 
 

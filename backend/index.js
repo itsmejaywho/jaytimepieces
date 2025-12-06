@@ -61,7 +61,6 @@ app.post('/getUserBillingInfo', (req, res)=> {
     const {message, user_id} = req.body;
     const getBilling = 'Select * From user_billing WHERE user_id = ?';
 
-
     connection.query(getBilling, [user_id], (err, answer) => {
         
         if(err){
