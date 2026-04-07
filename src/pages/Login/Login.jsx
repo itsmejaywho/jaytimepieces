@@ -1,0 +1,67 @@
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import logo from '../../assets/images/logo.png'
+import LoginSkeleton from './LoginSkeleton'
+import './Login.css'
+
+const Login = () => {
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) return <LoginSkeleton />
+
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-logo-wrapper">
+          <Link to="/">
+            <img src={logo} alt="JayTimepieces" className="login-logo" />
+          </Link>
+        </div>
+        <h1 className="login-title">Login</h1>
+        <p className="login-subtitle">Hey, Enter your details to sign in to your account</p>
+
+        <form className="login-form">
+          <div className="input-group">
+            <input type="text" placeholder="Enter Email / Phone No" className="login-input" />
+          </div>
+          <div className="input-group">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Passcode"
+              className="login-input"
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
+
+          <a href="#" className="trouble-link">Having trouble in sign in?</a>
+
+          <button type="submit" className="login-btn">Sign in</button>
+        </form>
+
+        <p className="register-link">
+          Don&apos;t have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+      </div>
+
+      <div className="login-footer">
+        <span>Copyright &copy; JayTimepieces {new Date().getFullYear()}</span>
+        <span className="footer-sep">|</span>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  )
+}
+
+export default Login

@@ -1,0 +1,6 @@
+export { default as HeroSection } from './HeroSection'
+export { default as PopularBrands } from './PopularBrands'
+export { default as ReviewStats } from './ReviewStats'
+export { default as BuyerProtection } from './BuyerProtection'
+export { default as WatchCatalog } from './WatchCatalog'
+export { default as Testimonials } from './Testimonials'
