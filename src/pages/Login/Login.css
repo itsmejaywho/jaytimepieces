@@ -44,6 +44,19 @@
   line-height: 1.5;
 }
 
+.login-error {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  text-align: center;
+  min-height: 1.25rem;
+  margin: 0;
+  visibility: visible;
+}
+
+.login-error:empty {
+  visibility: hidden;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;

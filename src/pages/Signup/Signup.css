@@ -1,0 +1,15 @@
+.signup-name-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.signup-name-row .input-group {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .signup-name-row {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+}
