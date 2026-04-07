@@ -22,7 +22,7 @@ const Login = () => {
     setError('')
     if (username === 'admin' && password === 'admin') {
       sessionStorage.setItem('user', 'admin')
-      navigate('/')
+      navigate('/shop')
     } else {
       setError('Invalid username or password')
       setTimeout(() => setError(''), 3000)
