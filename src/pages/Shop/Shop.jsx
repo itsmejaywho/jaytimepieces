@@ -1,10 +1,47 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
+import rolex1 from '../../assets/images/rolex1.webp'
+import rolex2 from '../../assets/images/rolex2.webp'
+import rolex3 from '../../assets/images/rolex3.webp'
+import rolex4 from '../../assets/images/rolex4.webp'
+import patek1 from '../../assets/images/patek1.webp'
+import patek2 from '../../assets/images/patek2.webp'
+import patek3 from '../../assets/images/patek3.webp'
+import patek4 from '../../assets/images/patek4.webp'
 import './Shop.css'
+
+const watches = [
+  { brand: 'Rolex', model: 'Datejust', price: 529678, img: rolex1 },
+  { brand: 'Rolex', model: 'Submariner', price: 966179, img: rolex2 },
+  { brand: 'Rolex', model: 'Day-Date', price: 1315466, img: rolex3 },
+  { brand: 'Rolex', model: 'GMT-Master II', price: 1378757, img: rolex4 },
+  { brand: 'Patek Philippe', model: 'Nautilus', price: 3850000, img: patek1 },
+  { brand: 'Patek Philippe', model: 'Aquanaut', price: 2750000, img: patek2 },
+  { brand: 'Patek Philippe', model: 'Calatrava', price: 1980000, img: patek3 },
+  { brand: 'Patek Philippe', model: 'Complications', price: 4200000, img: patek4 },
+]
 
 const Shop = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const profileRef = useRef(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('user')
+    navigate('/login')
+  }
 
   return (
     <div className="shop-page">
@@ -46,13 +83,67 @@ const Shop = () => {
               <path d="M5 6V4C5 2.3 6.8 1 9 1C11.2 1 13 2.3 13 4V6" stroke="white" strokeWidth="1.5" />
             </svg>
           </button>
-          {/* User / Account */}
-          <button className="shop-icon-btn" aria-label="Account">
-            <svg width="20" height="22" viewBox="0 0 20 22" fill="none">
-              <circle cx="10" cy="6" r="5" stroke="white" strokeWidth="1.5" />
-              <path d="M1 21C1 16.6 5 13 10 13C15 13 19 16.6 19 21" stroke="white" strokeWidth="1.5" />
-            </svg>
-          </button>
+          {/* User / Account with dropdown */}
+          <div className="profile-wrapper" ref={profileRef}>
+            <button
+              className="shop-icon-btn"
+              aria-label="Account"
+              onClick={() => setProfileOpen(!profileOpen)}
+            >
+              <svg width="20" height="22" viewBox="0 0 20 22" fill="none">
+                <circle cx="10" cy="6" r="5" stroke="white" strokeWidth="1.5" />
+                <path d="M1 21C1 16.6 5 13 10 13C15 13 19 16.6 19 21" stroke="white" strokeWidth="1.5" />
+              </svg>
+              <svg className="profile-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            {profileOpen && (
+              <div className="profile-dropdown">
+                <div className="profile-dropdown-section">
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg>
+                    Overview
+                  </button>
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><path d="M22 6l-10 7L2 6" /></svg>
+                    Messages
+                  </button>
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" /></svg>
+                    Buy
+                  </button>
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" /></svg>
+                    Sell
+                  </button>
+
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    Watch Collection
+                  </button>
+                </div>
+
+                <div className="profile-dropdown-divider" />
+
+                <div className="profile-dropdown-section">
+                  <button className="profile-dropdown-item" onClick={() => { setProfileOpen(false); navigate('/profile') }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                    Profile
+                  </button>
+                  <button className="profile-dropdown-item" onClick={() => setProfileOpen(false)}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 01-3.46 0" /></svg>
+                    Notifications
+                  </button>
+                  <button className="profile-dropdown-item" onClick={handleLogout}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+                    Log out
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -72,12 +163,26 @@ const Shop = () => {
             <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>LIKED WATCHES</Link>
             <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>CART</Link>
             <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>PROFILE</Link>
+            <button className="shop-mobile-link shop-mobile-logout" onClick={handleLogout}>LOG OUT</button>
           </div>
         </div>
       </div>
 
       <main className="shop-body">
-        {/* Content will go here */}
+        <div className="shop-catalog-grid">
+          {watches.map((watch, i) => (
+            <div key={i} className="shop-watch-card">
+              <div className="shop-watch-img-wrapper">
+                <img src={watch.img} alt={`${watch.brand} ${watch.model}`} className="shop-watch-img" />
+              </div>
+              <div className="shop-watch-info">
+                <span className="shop-watch-brand">{watch.brand}</span>
+                <span className="shop-watch-model">{watch.model}</span>
+                <span className="shop-watch-price">from Php{watch.price.toLocaleString()}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   )

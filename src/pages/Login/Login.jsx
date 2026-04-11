@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import LoginSkeleton from './LoginSkeleton'
+import LoginVerification from './LoginVerification'
 import './Login.css'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [verifying, setVerifying] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -22,7 +24,8 @@ const Login = () => {
     setError('')
     if (username === 'admin' && password === 'admin') {
       sessionStorage.setItem('user', 'admin')
-      navigate('/shop')
+      setVerifying(true)
+      setTimeout(() => navigate('/shop'), 3000)
     } else {
       setError('Invalid username or password')
       setTimeout(() => setError(''), 3000)
@@ -30,6 +33,7 @@ const Login = () => {
   }
 
   if (loading) return <LoginSkeleton />
+  if (verifying) return <LoginVerification email={username} />
 
   return (
     <div className="login-page">
