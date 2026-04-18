@@ -22,7 +22,7 @@ jobs:
 
               if (!match) return '';
               return match[1]
-                .replace(/<!--([\s\S]*?)-->/g, '')    // remove HTML comments
+                .replace(/<!--([\s\S]*?)-->/g, '')     // remove HTML comments
                 .trim();
             }
 
