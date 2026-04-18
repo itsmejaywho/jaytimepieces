@@ -15,4 +15,4 @@
 <!-- Add screenshots, logs, or test notes -->
 
 ## Notes
-<!-- Anything reviers should focus on. If none, you can delete this section -->
+<!-- Anything reviewers should focus on. If none, you can delete this section -->
