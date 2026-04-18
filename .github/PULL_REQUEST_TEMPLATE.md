@@ -12,7 +12,7 @@
 <!-- Required: Explain why is this risk level appropriate? -->
 
 ## Test Evidence
-<!-- Add screenshots, logs, or test notes -->
+<!-- Add screenshots, logs, or test notes. If none, you can delete this sectio -->
 
 ## Notes
 <!-- Anything reviewers should focus on. If none, you can delete this section -->
