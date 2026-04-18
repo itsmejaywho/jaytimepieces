@@ -16,19 +16,19 @@ jobs:
             const prBodyRaw = context.payload.pull_request.body || '';
             const prBody = prBodyRaw.replace(/\r\n/g, '\n');
 
-            function sectionContect(title) {
-              const regex = new RegExp(`##\\s*${title})\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, 'i');
+            function sectionContent(title) {
+              const regex = new RegExp(`##\\s*${title}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, 'i');
               const match = prBody.match(regex);
 
               if (!match) return '';
               return match[1]
-                .replace(/<!--([\s\S]*?)-->/g, '')     # remove HTML comments
+                .replace(/<!--([\s\S]*?)-->/g, '')    // remove HTML comments
                 .trim();
             }
 
-            const description = sectionContect('Description');
-            const risk = sectionContect('Risk');
-            const riskExplanation = sectionContect('Risk Explanation');
+            const description = sectionContent('Description');
+            const risk = sectionContent('Risk');
+            const riskExplanation = sectionContent('Risk Explanation');
 
             const checks = {
               none: /[*-] \[(x|X)\]\s*None\b/.test(risk),
