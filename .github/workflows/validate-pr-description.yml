@@ -1,0 +1,62 @@
+name: Validate PR Description
+
+on:
+  pull_request:
+    types: [opened, edited, synchronized,reopened]
+
+jobs:
+  validate-pr-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBodyRaw = context.payload.pull_request.body || '';
+            const prBody = prBodyRaw.replace(/\r\n/g, '\n');
+
+            function sectionContect(title) {
+              const regex = new RegExp(`##\\s*${title})\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`, 'i');
+              const match = prBody.match(regex);
+
+              if (!match) return '';
+              return match[1]
+                .replace(/<!--([\s\S]*?)-->/g, '')     # remove HTML comments
+                .trim();
+            }
+
+            const description = sectionContect('Description');
+            const risk = sectionContect('Risk');
+            const riskExplanation = sectionContect('Risk Explanation');
+
+            const checks = {
+              none: /[*-] \[(x|X)\]\s*None\b/.test(risk),
+              low: /[*-] \[(x|X)\]\s*Low\b/.test(risk),
+              medium: /[*-] \[(x|X)\]\s*Medium\b/.test(risk),
+              high: /[*-] \[(x|X)\]\s*High\b/.test(risk),
+            };
+
+            const selectedCount = Object.values(checks).filter(Boolean).length;
+
+            const errors = [];
+
+            if (!description) {
+              errors.push('`Description` is required.');
+            }
+
+            if (selectedCount === 0) {
+              errors.push('Select one `Risk Level` (None, Low, Medium, or High).');
+            }
+
+            if (selectedCount > 1) {
+              errors.push('Select only one `Risk Level`.');
+            }
+
+            if (!riskExplanation) {
+              errors.push('`Risk Explanation` is required.');
+            }
+
+            if (errors.length) {
+              core.setFailed(`PR description validation failed:\n- ${errors.join('\n- ')}`);
+            }
