@@ -44,6 +44,11 @@ const Profile = () => {
 
   const [editingEmail, setEditingEmail] = useState(false)
   const [changingPassword, setChangingPassword] = useState(false)
+  const [showPasswordFields, setShowPasswordFields] = useState({
+    current: false,
+    next: false,
+    confirm: false,
+  })
 
   const handleLoginChange = (e) => {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value })
@@ -62,12 +67,19 @@ const Profile = () => {
     navigate('/login')
   }
 
+  const togglePasswordField = (field) => {
+    setShowPasswordFields((current) => ({
+      ...current,
+      [field]: !current[field],
+    }))
+  }
+
   return (
     <div className="shop-page">
       <nav className="shop-nav">
         <div className="shop-nav-left">
           <Link to="/" className="shop-logo-link">
-            <img src={logo} alt="JayTimepieces" className="shop-logo" />
+            <p className='profile-logo'>JAYTIMEPIECES</p>
           </Link>
           <button
             className="shop-burger"
@@ -220,36 +232,63 @@ const Profile = () => {
               <>
                 <div className="profile-field">
                   <label className="profile-label">Current Password</label>
-                  <input
-                    type="password"
-                    name="currentPassword"
-                    value={loginInfo.currentPassword}
-                    onChange={handleLoginChange}
-                    className="profile-input"
-                    placeholder="Enter current password"
-                  />
+                  <div className="profile-field-row">
+                    <input
+                      type={showPasswordFields.current ? 'text' : 'password'}
+                      name="currentPassword"
+                      value={loginInfo.currentPassword}
+                      onChange={handleLoginChange}
+                      className="profile-input"
+                      placeholder="Enter current password"
+                    />
+                    <button
+                      type="button"
+                      className="profile-btn-text profile-password-toggle"
+                      onClick={() => togglePasswordField('current')}
+                    >
+                      {showPasswordFields.current ? 'Hide' : 'View'}
+                    </button>
+                  </div>
                 </div>
                 <div className="profile-field">
                   <label className="profile-label">New Password</label>
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={loginInfo.newPassword}
-                    onChange={handleLoginChange}
-                    className="profile-input"
-                    placeholder="Enter new password"
-                  />
+                  <div className="profile-field-row">
+                    <input
+                      type={showPasswordFields.next ? 'text' : 'password'}
+                      name="newPassword"
+                      value={loginInfo.newPassword}
+                      onChange={handleLoginChange}
+                      className="profile-input"
+                      placeholder="Enter new password"
+                    />
+                    <button
+                      type="button"
+                      className="profile-btn-text profile-password-toggle"
+                      onClick={() => togglePasswordField('next')}
+                    >
+                      {showPasswordFields.next ? 'Hide' : 'View'}
+                    </button>
+                  </div>
                 </div>
                 <div className="profile-field">
                   <label className="profile-label">Confirm Password</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={loginInfo.confirmPassword}
-                    onChange={handleLoginChange}
-                    className="profile-input"
-                    placeholder="Confirm new password"
-                  />
+                  <div className="profile-field-row">
+                    <input
+                      type={showPasswordFields.confirm ? 'text' : 'password'}
+                      name="confirmPassword"
+                      value={loginInfo.confirmPassword}
+                      onChange={handleLoginChange}
+                      className="profile-input"
+                      placeholder="Confirm new password"
+                    />
+                    <button
+                      type="button"
+                      className="profile-btn-text profile-password-toggle"
+                      onClick={() => togglePasswordField('confirm')}
+                    >
+                      {showPasswordFields.confirm ? 'Hide' : 'View'}
+                    </button>
+                  </div>
                 </div>
                 <div className="profile-card-actions">
                   <button className="profile-btn" onClick={() => setChangingPassword(false)}>Save Password</button>

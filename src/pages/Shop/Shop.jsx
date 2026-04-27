@@ -1,21 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import rolex1 from '../../assets/images/rolex1.webp'
-import rolex2 from '../../assets/images/rolex2.webp'
-import rolex3 from '../../assets/images/rolex3.webp'
-import rolex4 from '../../assets/images/rolex4.webp'
-import patek1 from '../../assets/images/patek1.webp'
-import patek2 from '../../assets/images/patek2.webp'
 import './Shop.css'
 
-const allWatches = [
-  { code: 'CH-9340.1-SLBK', name: 'Space Timer Nautilus', limit: 'Limited to 50 pieces', img: rolex1, variant: 1 },
-  { code: 'CH-9345M.2-GRBK', name: 'Space Timer Black Hole', limit: 'Limited to 50 pieces', img: rolex2, variant: 1 },
-  { code: 'CH-9341.2-CUBK', name: 'Space Timer Jupiter Gold', limit: 'Limited to 50 pieces', img: patek1, variant: 1 },
-  { code: 'CH-9343.2-CUBK', name: 'Space Timer Jupiter', limit: 'Limited to 15 pieces', img: patek2, variant: 2 },
-  { code: 'CH-5412.3-BRRG', name: 'Tourbillon Blue Orbit', limit: 'Limited to 15 pieces', img: rolex3, variant: 2 },
-  { code: 'CH-5410.4-RGSV', name: 'Datejust Classic Gold', limit: 'Limited to 15 pieces', img: rolex4, variant: 2 },
-]
+const initialWatches = []
+const WATCH_STORAGE_KEY = 'shop-user-watches'
+
+const readFileAsDataUrl = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.onload = () => resolve(reader.result)
+  reader.onerror = () => reject(new Error('Unable to read image file.'))
+  reader.readAsDataURL(file)
+})
 
 const Shop = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -24,6 +19,24 @@ const Shop = () => {
   const [visibleCards, setVisibleCards] = useState(3)
   const [startIndex, setStartIndex] = useState(0)
   const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false)
+  const [watches, setWatches] = useState(() => {
+    try {
+      const rawWatches = localStorage.getItem(WATCH_STORAGE_KEY)
+      if (!rawWatches) return initialWatches
+
+      const parsedWatches = JSON.parse(rawWatches)
+      return Array.isArray(parsedWatches) ? parsedWatches : initialWatches
+    } catch {
+      return initialWatches
+    }
+  })
+  const [newWatch, setNewWatch] = useState({
+    code: '',
+    name: '',
+    price: '',
+    imageFile: null,
+  })
+  const [formStatus, setFormStatus] = useState({ type: '', message: '' })
   const profileRef = useRef(null)
   const navigate = useNavigate()
 
@@ -54,11 +67,15 @@ const Shop = () => {
   }, [])
 
   useEffect(() => {
-    const maxStart = Math.max(0, allWatches.length - visibleCards)
+    const maxStart = Math.max(0, watches.length - visibleCards)
     if (startIndex > maxStart) {
       setStartIndex(maxStart)
     }
-  }, [visibleCards, startIndex])
+  }, [visibleCards, startIndex, watches.length])
+
+  useEffect(() => {
+    localStorage.setItem(WATCH_STORAGE_KEY, JSON.stringify(watches))
+  }, [watches])
 
   const handleLogout = () => {
     sessionStorage.removeItem('user')
@@ -67,7 +84,7 @@ const Shop = () => {
 
   const sizes = ['34', '37', '40', '41', '42', '43', '44+', '45']
 
-  const maxStart = Math.max(0, allWatches.length - visibleCards)
+  const maxStart = Math.max(0, watches.length - visibleCards)
 
   useEffect(() => {
     if (isAutoPlayPaused || maxStart === 0) return undefined
@@ -85,6 +102,58 @@ const Shop = () => {
 
   const prevSlide = () => {
     setStartIndex((current) => (current <= 0 ? maxStart : current - 1))
+  }
+
+  const handleWatchInputChange = (e) => {
+    const { name, value, files } = e.target
+
+    if (name === 'imageFile') {
+      const selectedFile = files && files[0] ? files[0] : null
+      setNewWatch((current) => ({ ...current, imageFile: selectedFile }))
+      setFormStatus({ type: '', message: '' })
+      return
+    }
+
+    setNewWatch((current) => ({ ...current, [name]: value }))
+    setFormStatus({ type: '', message: '' })
+  }
+
+  const handleAddWatch = async (e) => {
+    e.preventDefault()
+
+    if (!newWatch.imageFile || !newWatch.name.trim() || !newWatch.code.trim() || !newWatch.price.trim()) {
+      setFormStatus({ type: 'error', message: 'Please provide image, watch name, watch ID, and price.' })
+      return
+    }
+
+    if (newWatch.imageFile.type !== 'image/png') {
+      setFormStatus({ type: 'error', message: 'Only PNG images are allowed.' })
+      return
+    }
+
+    try {
+      const imageDataUrl = await readFileAsDataUrl(newWatch.imageFile)
+
+      const formattedPrice = newWatch.price.trim().startsWith('$')
+        ? newWatch.price.trim()
+        : `$${newWatch.price.trim()}`
+
+      const watchToAdd = {
+        code: newWatch.code.trim(),
+        name: newWatch.name.trim(),
+        price: formattedPrice,
+        limit: 'Custom listing',
+        img: imageDataUrl,
+        variant: watches.length % 2 === 0 ? 1 : 2,
+      }
+
+      setWatches((current) => [...current, watchToAdd])
+      setStartIndex(Math.max(0, watches.length + 1 - visibleCards))
+      setNewWatch({ code: '', name: '', price: '', imageFile: null })
+      setFormStatus({ type: 'success', message: 'Watch added to carousel.' })
+    } catch {
+      setFormStatus({ type: 'error', message: 'Could not save image. Please try another PNG file.' })
+    }
   }
 
   return (
@@ -253,57 +322,121 @@ const Shop = () => {
           <div className="available-header">
             <h2 className="available-label">Available Watches</h2>
             <div className="slider-controls">
-              <span className="slider-count">{allWatches.length} watches</span>
-              <button type="button" className="slider-btn" onClick={prevSlide} aria-label="Previous slide">
+              <span className="slider-count">{watches.length} watches</span>
+              <button type="button" className="slider-btn" onClick={prevSlide} aria-label="Previous slide" disabled={watches.length === 0}>
                 &lt;
               </button>
-              <button type="button" className="slider-btn" onClick={nextSlide} aria-label="Next slide">
+              <button type="button" className="slider-btn" onClick={nextSlide} aria-label="Next slide" disabled={watches.length === 0}>
                 &gt;
               </button>
             </div>
           </div>
 
-          <div
-            className="carousel-viewport"
-            onMouseEnter={() => setIsAutoPlayPaused(true)}
-            onMouseLeave={() => setIsAutoPlayPaused(false)}
-            onFocus={() => setIsAutoPlayPaused(true)}
-            onBlur={() => setIsAutoPlayPaused(false)}
-          >
-            <div
-              className="carousel-track"
-              style={{
-                transform: `translateX(-${(100 / visibleCards) * startIndex}%)`,
-              }}
-            >
-              {allWatches.map((watch) => (
-                <div key={watch.code} className="carousel-slide" style={{ flex: `0 0 calc(100% / ${visibleCards})` }}>
-                  <article className={`shop-watch-card card-${watch.variant}`}>
-                    <span className="watch-limit">{watch.limit}</span>
-                    <div className="shop-watch-img-wrapper">
-                      <img src={watch.img} alt={watch.name} className="shop-watch-img" />
+          {watches.length === 0 ? (
+            <div className="empty-watch-state">No available watch for today.</div>
+          ) : (
+            <>
+              <div
+                className="carousel-viewport"
+                onMouseEnter={() => setIsAutoPlayPaused(true)}
+                onMouseLeave={() => setIsAutoPlayPaused(false)}
+                onFocus={() => setIsAutoPlayPaused(true)}
+                onBlur={() => setIsAutoPlayPaused(false)}
+              >
+                <div
+                  className="carousel-track"
+                  style={{
+                    transform: `translateX(-${(100 / visibleCards) * startIndex}%)`,
+                  }}
+                >
+                  {watches.map((watch, index) => (
+                    <div key={`${watch.code}-${index}`} className="carousel-slide" style={{ flex: `0 0 calc(100% / ${visibleCards})` }}>
+                      <article className={`shop-watch-card card-${watch.variant}`}>
+                        <span className="watch-limit">{watch.limit}</span>
+                        <div className="shop-watch-img-wrapper">
+                          <img src={watch.img} alt={watch.name} className="shop-watch-img" />
+                        </div>
+                        <div className="shop-watch-info">
+                          <span className="shop-watch-brand">{watch.code}</span>
+                          <span className="shop-watch-model">{watch.name}</span>
+                          <span className="shop-watch-price">{watch.price}</span>
+                        </div>
+                      </article>
                     </div>
-                    <div className="shop-watch-info">
-                      <span className="shop-watch-brand">{watch.code}</span>
-                      <span className="shop-watch-model">{watch.name}</span>
-                    </div>
-                  </article>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
 
-          <div className="carousel-dots" aria-label="Carousel position">
-            {Array.from({ length: maxStart + 1 }).map((_, index) => (
-              <button
-                key={`dot-${index}`}
-                type="button"
-                className={`carousel-dot ${index === startIndex ? 'active' : ''}`}
-                onClick={() => setStartIndex(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+              <div className="carousel-dots" aria-label="Carousel position">
+                {Array.from({ length: maxStart + 1 }).map((_, index) => (
+                  <button
+                    key={`dot-${index}`}
+                    type="button"
+                    className={`carousel-dot ${index === startIndex ? 'active' : ''}`}
+                    onClick={() => setStartIndex(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          <form className="add-watch-form" onSubmit={handleAddWatch}>
+            <h3 className="add-watch-title">Add Watch To Carousel</h3>
+            <div className="add-watch-grid">
+              <label className="add-watch-field">
+                <span>Watch Image</span>
+                <input
+                  type="file"
+                  name="imageFile"
+                  accept=".png,image/png"
+                  onChange={handleWatchInputChange}
+                />
+              </label>
+
+              <label className="add-watch-field">
+                <span>Watch Name</span>
+                <input
+                  type="text"
+                  name="name"
+                  value={newWatch.name}
+                  onChange={handleWatchInputChange}
+                  placeholder="e.g. Oyster Perpetual"
+                />
+              </label>
+
+              <label className="add-watch-field">
+                <span>Watch ID</span>
+                <input
+                  type="text"
+                  name="code"
+                  value={newWatch.code}
+                  onChange={handleWatchInputChange}
+                  placeholder="e.g. CH-0001.0-TEST"
+                />
+              </label>
+
+              <label className="add-watch-field">
+                <span>Price</span>
+                <input
+                  type="text"
+                  name="price"
+                  value={newWatch.price}
+                  onChange={handleWatchInputChange}
+                  placeholder="e.g. 19500"
+                />
+              </label>
+            </div>
+
+            <div className="add-watch-actions">
+              <button type="submit" className="add-watch-btn">Confirm And Add</button>
+              {formStatus.message && (
+                <p className={`add-watch-message ${formStatus.type === 'error' ? 'is-error' : 'is-success'}`}>
+                  {formStatus.message}
+                </p>
+              )}
+            </div>
+          </form>
         </section>
       </main>
     </div>

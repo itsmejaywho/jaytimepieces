@@ -25,7 +25,13 @@ const Login = () => {
     if (username === 'admin' && password === 'admin') {
       sessionStorage.setItem('user', 'admin')
       setVerifying(true)
-      setTimeout(() => navigate('/shop'), 3000)
+
+      Promise.all([
+        import('../Shop/Shop'),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ])
+        .then(() => navigate('/shop'))
+        .catch(() => navigate('/shop'))
     } else {
       setError('Invalid username or password')
       setTimeout(() => setError(''), 3000)
@@ -33,7 +39,7 @@ const Login = () => {
   }
 
   if (loading) return <LoginSkeleton />
-  if (verifying) return <LoginVerification email={username} />
+  if (verifying) return <LoginVerification />
 
   return (
     <div className="login-page">

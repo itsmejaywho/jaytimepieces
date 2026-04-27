@@ -2,6 +2,17 @@
   margin-bottom: 2rem;
 }
 
+.verification-clock-page {
+  justify-content: flex-start;
+}
+
+.verification-clock-stage {
+  width: 100%;
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+}
+
 .verification-card {
   background: #fff;
   border-radius: 16px;
@@ -46,16 +57,23 @@
   justify-content: center;
 }
 
-.spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid #e0e0e0;
-  border-top-color: #999;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+.watch-loader {
+  width: 140px;
+  height: 140px;
+  display: grid;
+  place-items: center;
 }
 
-@keyframes spin {
+.clock-hands {
+  transform-origin: 28px 28px;
+  animation: clock-hands-spin 1s linear infinite;
+}
+
+@keyframes clock-hands-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
   to {
     transform: rotate(360deg);
   }
