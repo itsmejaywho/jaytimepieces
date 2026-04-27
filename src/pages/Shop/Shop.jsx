@@ -1,30 +1,29 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../../assets/images/logo.png'
 import rolex1 from '../../assets/images/rolex1.webp'
 import rolex2 from '../../assets/images/rolex2.webp'
 import rolex3 from '../../assets/images/rolex3.webp'
 import rolex4 from '../../assets/images/rolex4.webp'
 import patek1 from '../../assets/images/patek1.webp'
 import patek2 from '../../assets/images/patek2.webp'
-import patek3 from '../../assets/images/patek3.webp'
-import patek4 from '../../assets/images/patek4.webp'
 import './Shop.css'
 
-const watches = [
-  { brand: 'Rolex', model: 'Datejust', price: 529678, img: rolex1 },
-  { brand: 'Rolex', model: 'Submariner', price: 966179, img: rolex2 },
-  { brand: 'Rolex', model: 'Day-Date', price: 1315466, img: rolex3 },
-  { brand: 'Rolex', model: 'GMT-Master II', price: 1378757, img: rolex4 },
-  { brand: 'Patek Philippe', model: 'Nautilus', price: 3850000, img: patek1 },
-  { brand: 'Patek Philippe', model: 'Aquanaut', price: 2750000, img: patek2 },
-  { brand: 'Patek Philippe', model: 'Calatrava', price: 1980000, img: patek3 },
-  { brand: 'Patek Philippe', model: 'Complications', price: 4200000, img: patek4 },
+const allWatches = [
+  { code: 'CH-9340.1-SLBK', name: 'Space Timer Nautilus', limit: 'Limited to 50 pieces', img: rolex1, variant: 1 },
+  { code: 'CH-9345M.2-GRBK', name: 'Space Timer Black Hole', limit: 'Limited to 50 pieces', img: rolex2, variant: 1 },
+  { code: 'CH-9341.2-CUBK', name: 'Space Timer Jupiter Gold', limit: 'Limited to 50 pieces', img: patek1, variant: 1 },
+  { code: 'CH-9343.2-CUBK', name: 'Space Timer Jupiter', limit: 'Limited to 15 pieces', img: patek2, variant: 2 },
+  { code: 'CH-5412.3-BRRG', name: 'Tourbillon Blue Orbit', limit: 'Limited to 15 pieces', img: rolex3, variant: 2 },
+  { code: 'CH-5410.4-RGSV', name: 'Datejust Classic Gold', limit: 'Limited to 15 pieces', img: rolex4, variant: 2 },
 ]
 
 const Shop = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [activeSize, setActiveSize] = useState('34')
+  const [visibleCards, setVisibleCards] = useState(3)
+  const [startIndex, setStartIndex] = useState(0)
+  const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false)
   const profileRef = useRef(null)
   const navigate = useNavigate()
 
@@ -38,18 +37,61 @@ const Shop = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      if (window.innerWidth <= 620) {
+        setVisibleCards(1)
+      } else if (window.innerWidth <= 900) {
+        setVisibleCards(2)
+      } else {
+        setVisibleCards(3)
+      }
+    }
+
+    updateVisibleCards()
+    window.addEventListener('resize', updateVisibleCards)
+    return () => window.removeEventListener('resize', updateVisibleCards)
+  }, [])
+
+  useEffect(() => {
+    const maxStart = Math.max(0, allWatches.length - visibleCards)
+    if (startIndex > maxStart) {
+      setStartIndex(maxStart)
+    }
+  }, [visibleCards, startIndex])
+
   const handleLogout = () => {
     sessionStorage.removeItem('user')
     navigate('/login')
+  }
+
+  const sizes = ['34', '37', '40', '41', '42', '43', '44+', '45']
+
+  const maxStart = Math.max(0, allWatches.length - visibleCards)
+
+  useEffect(() => {
+    if (isAutoPlayPaused || maxStart === 0) return undefined
+
+    const timer = setInterval(() => {
+      setStartIndex((current) => (current >= maxStart ? 0 : current + 1))
+    }, 5200)
+
+    return () => clearInterval(timer)
+  }, [isAutoPlayPaused, maxStart])
+
+  const nextSlide = () => {
+    setStartIndex((current) => (current >= maxStart ? 0 : current + 1))
+  }
+
+  const prevSlide = () => {
+    setStartIndex((current) => (current <= 0 ? maxStart : current - 1))
   }
 
   return (
     <div className="shop-page">
       <nav className="shop-nav">
         <div className="shop-nav-left">
-          <Link to="/" className="shop-logo-link">
-            <img src={logo} alt="JayTimepieces" className="shop-logo" />
-          </Link>
+          <Link to="/" className="shop-brand">JAYTIMEPIECES</Link>
           <button
             className="shop-burger"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -70,20 +112,17 @@ const Shop = () => {
         </div>
 
         <div className="shop-nav-right">
-          {/* Heart / Wishlist */}
           <button className="shop-icon-btn" aria-label="Wishlist">
             <svg width="22" height="20" viewBox="0 0 22 20" fill="none">
               <path d="M11 18.5C11 18.5 1.5 13 1.5 6.5C1.5 3.5 4 1 7 1C8.8 1 10.4 1.9 11 3.4C11.6 1.9 13.2 1 15 1C18 1 20.5 3.5 20.5 6.5C20.5 13 11 18.5 11 18.5Z" stroke="white" strokeWidth="1.5" />
             </svg>
           </button>
-          {/* Cart / Bag */}
           <button className="shop-icon-btn" aria-label="Cart">
             <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
               <rect x="1" y="6" width="16" height="15" rx="2" stroke="white" strokeWidth="1.5" />
               <path d="M5 6V4C5 2.3 6.8 1 9 1C11.2 1 13 2.3 13 4V6" stroke="white" strokeWidth="1.5" />
             </svg>
           </button>
-          {/* User / Account with dropdown */}
           <div className="profile-wrapper" ref={profileRef}>
             <button
               className="shop-icon-btn"
@@ -156,6 +195,7 @@ const Shop = () => {
           className={`shop-mobile-menu ${menuOpen ? 'active' : ''}`}
           onClick={(e) => e.stopPropagation()}
         >
+          <div className="shop-mobile-brand">JAYTIMEPIECES</div>
           <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>WATCHES</Link>
           <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>WARRANTY & SERVICE</Link>
           <Link to="/shop" className="shop-mobile-link" onClick={() => setMenuOpen(false)}>STORES</Link>
@@ -169,20 +209,102 @@ const Shop = () => {
       </div>
 
       <main className="shop-body">
-        <div className="shop-catalog-grid">
-          {watches.map((watch, i) => (
-            <div key={i} className="shop-watch-card">
-              <div className="shop-watch-img-wrapper">
-                <img src={watch.img} alt={`${watch.brand} ${watch.model}`} className="shop-watch-img" />
-              </div>
-              <div className="shop-watch-info">
-                <span className="shop-watch-brand">{watch.brand}</span>
-                <span className="shop-watch-model">{watch.model}</span>
-                <span className="shop-watch-price">from Php{watch.price.toLocaleString()}</span>
-              </div>
+        <section className="shop-control-strip" aria-label="Watch filters">
+          <div className="control-group">
+            <span className="control-label">Functions Regulator</span>
+            <div className="dot-pack">
+              <span className="dot dot-copper" />
+              <span className="dot" />
+              <span className="dot" />
             </div>
-          ))}
-        </div>
+          </div>
+
+          <button className="control-link" type="button">Special Features</button>
+
+          <div className="control-group">
+            <span className="control-label">Sizes</span>
+            <div className="size-pack">
+              {sizes.map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  className={`size-chip ${activeSize === size ? 'active' : ''}`}
+                  onClick={() => setActiveSize(size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="control-group">
+            <span className="control-label">Materials Red Gold</span>
+            <div className="material-pack">
+              <span className="material material-copper" />
+              <span className="material material-light" />
+              <span className="material material-blue" />
+              <span className="material material-dark" />
+              <span className="material material-rose" />
+            </div>
+          </div>
+        </section>
+
+        <section className="catalog-section catalog-scroll-section">
+          <div className="available-header">
+            <h2 className="available-label">Available Watches</h2>
+            <div className="slider-controls">
+              <span className="slider-count">{allWatches.length} watches</span>
+              <button type="button" className="slider-btn" onClick={prevSlide} aria-label="Previous slide">
+                &lt;
+              </button>
+              <button type="button" className="slider-btn" onClick={nextSlide} aria-label="Next slide">
+                &gt;
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="carousel-viewport"
+            onMouseEnter={() => setIsAutoPlayPaused(true)}
+            onMouseLeave={() => setIsAutoPlayPaused(false)}
+            onFocus={() => setIsAutoPlayPaused(true)}
+            onBlur={() => setIsAutoPlayPaused(false)}
+          >
+            <div
+              className="carousel-track"
+              style={{
+                transform: `translateX(-${(100 / visibleCards) * startIndex}%)`,
+              }}
+            >
+              {allWatches.map((watch) => (
+                <div key={watch.code} className="carousel-slide" style={{ flex: `0 0 calc(100% / ${visibleCards})` }}>
+                  <article className={`shop-watch-card card-${watch.variant}`}>
+                    <span className="watch-limit">{watch.limit}</span>
+                    <div className="shop-watch-img-wrapper">
+                      <img src={watch.img} alt={watch.name} className="shop-watch-img" />
+                    </div>
+                    <div className="shop-watch-info">
+                      <span className="shop-watch-brand">{watch.code}</span>
+                      <span className="shop-watch-model">{watch.name}</span>
+                    </div>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="carousel-dots" aria-label="Carousel position">
+            {Array.from({ length: maxStart + 1 }).map((_, index) => (
+              <button
+                key={`dot-${index}`}
+                type="button"
+                className={`carousel-dot ${index === startIndex ? 'active' : ''}`}
+                onClick={() => setStartIndex(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   )
