@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AddWatchForm, NavLogin } from '../../components'
+import { AddWatchForm, NavLogin, WatchCard } from '../../components'
 import useShopWatches from '../../hooks/useShopWatches'
 import './Shop.css'
 
@@ -8,11 +8,16 @@ const Shop = () => {
   const [visibleCards, setVisibleCards] = useState(3)
   const [startIndex, setStartIndex] = useState(0)
   const [isAutoPlayPaused, setIsAutoPlayPaused] = useState(false)
+  const [activeWatchSizes, setActiveWatchSizes] = useState({})
+  const [watchSizeMotion, setWatchSizeMotion] = useState({})
   const {
     watches,
     newWatch,
+    fileInputResetKey,
+    sizeOptions,
     formStatus,
     handleWatchInputChange,
+    handleSizeToggle,
     handleAddWatch,
   } = useShopWatches({ visibleCards, setStartIndex })
 
@@ -59,6 +64,20 @@ const Shop = () => {
 
   const prevSlide = () => {
     setStartIndex((current) => (current <= 0 ? maxStart : current - 1))
+  }
+
+  const handleWatchSizeSelect = (watchKey, sizeIndex, offset) => {
+    const direction = offset < 0 ? 'from-left' : offset > 0 ? 'from-right' : ''
+
+    setActiveWatchSizes((current) => ({
+      ...current,
+      [watchKey]: sizeIndex,
+    }))
+
+    setWatchSizeMotion((current) => ({
+      ...current,
+      [watchKey]: direction,
+    }))
   }
 
   return (
@@ -139,17 +158,13 @@ const Shop = () => {
                 >
                   {watches.map((watch, index) => (
                     <div key={`${watch.code}-${index}`} className="carousel-slide" style={{ flex: `0 0 calc(100% / ${visibleCards})` }}>
-                      <article className={`shop-watch-card card-${watch.variant}`}>
-                        <span className="watch-limit">{watch.limit}</span>
-                        <div className="shop-watch-img-wrapper">
-                          <img src={watch.img} alt={watch.name} className="shop-watch-img" />
-                        </div>
-                        <div className="shop-watch-info">
-                          <span className="shop-watch-brand">{watch.code}</span>
-                          <span className="shop-watch-model">{watch.name}</span>
-                          <span className="shop-watch-price">{watch.price}</span>
-                        </div>
-                      </article>
+                      <WatchCard
+                        watch={watch}
+                        watchKey={`${watch.code}-${index}`}
+                        motionDirection={watchSizeMotion[`${watch.code}-${index}`] || ''}
+                        activeSizeIndex={activeWatchSizes[`${watch.code}-${index}`] ?? 0}
+                        onSizeSelect={handleWatchSizeSelect}
+                      />
                     </div>
                   ))}
                 </div>
@@ -172,7 +187,10 @@ const Shop = () => {
           <AddWatchForm
             newWatch={newWatch}
             formStatus={formStatus}
+            fileInputResetKey={fileInputResetKey}
+            sizeOptions={sizeOptions}
             onInputChange={handleWatchInputChange}
+            onSizeToggle={handleSizeToggle}
             onSubmit={handleAddWatch}
           />
         </section>

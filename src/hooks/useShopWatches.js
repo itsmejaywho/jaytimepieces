@@ -5,9 +5,11 @@ const initialNewWatch = {
   code: '',
   name: '',
   price: '',
+  sizes: [],
   imageFile: null,
 }
 const WATCH_STORAGE_KEY = 'shop-user-watches'
+const sizeOptions = ['34', '37', '40', '41', '42', '43', '44+', '45']
 
 const readFileAsDataUrl = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader()
@@ -29,6 +31,7 @@ const useShopWatches = ({ visibleCards, setStartIndex }) => {
     }
   })
   const [newWatch, setNewWatch] = useState(initialNewWatch)
+  const [fileInputResetKey, setFileInputResetKey] = useState(0)
   const [formStatus, setFormStatus] = useState({ type: '', message: '' })
 
   useEffect(() => {
@@ -46,6 +49,16 @@ const useShopWatches = ({ visibleCards, setStartIndex }) => {
     }
 
     setNewWatch((current) => ({ ...current, [name]: value }))
+    setFormStatus({ type: '', message: '' })
+  }
+
+  const handleSizeToggle = (size) => {
+    setNewWatch((current) => ({
+      ...current,
+      sizes: current.sizes.includes(size)
+        ? current.sizes.filter((currentSize) => currentSize !== size)
+        : [...current.sizes, size],
+    }))
     setFormStatus({ type: '', message: '' })
   }
 
@@ -73,6 +86,7 @@ const useShopWatches = ({ visibleCards, setStartIndex }) => {
         code: newWatch.code.trim(),
         name: newWatch.name.trim(),
         price: formattedPrice,
+        sizes: newWatch.sizes,
         limit: 'Custom listing',
         img: imageDataUrl,
         variant: watches.length % 2 === 0 ? 1 : 2,
@@ -81,6 +95,7 @@ const useShopWatches = ({ visibleCards, setStartIndex }) => {
       setWatches((current) => [...current, watchToAdd])
       setStartIndex(Math.max(0, watches.length + 1 - visibleCards))
       setNewWatch(initialNewWatch)
+      setFileInputResetKey((current) => current + 1)
       setFormStatus({ type: 'success', message: 'Watch added to carousel.' })
     } catch {
       setFormStatus({ type: 'error', message: 'Could not save image. Please try another PNG file.' })
@@ -90,8 +105,11 @@ const useShopWatches = ({ visibleCards, setStartIndex }) => {
   return {
     watches,
     newWatch,
+    fileInputResetKey,
+    sizeOptions,
     formStatus,
     handleWatchInputChange,
+    handleSizeToggle,
     handleAddWatch,
   }
 }
