@@ -1,3 +1,5 @@
 export { default as Navbar } from './Navbar/Navbar'
 export { default as Footer } from './Footer/Footer'
 export { default as Skeleton } from './Skeleton/Skeleton'
+export { default as AddWatchForm } from './AddWatchForm/AddWatchForm'
+export { default as NavLogin } from './NavLogin/NavLogin'
