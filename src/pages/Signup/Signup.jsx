@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
-import Skeleton from '../../components/Skeleton/Skeleton'
+import Skeleton from '../../components/loaders/Skeleton/Skeleton'
 import './Signup.css'
 
 const SignupSkeleton = () => (

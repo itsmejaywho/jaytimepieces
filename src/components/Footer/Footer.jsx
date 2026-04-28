@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './Footer.css'
 import logo from '../../assets/images/logo.png'
-import Skeleton from '../Skeleton/Skeleton'
+import Skeleton from '../loaders/Skeleton/Skeleton'
 
 const FooterSkeleton = () => (
   <footer className="footer">

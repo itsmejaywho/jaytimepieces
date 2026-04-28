@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import logo from '../../assets/images/logo.png'
-import Skeleton from '../Skeleton/Skeleton'
+import Skeleton from '../loaders/Skeleton/Skeleton'
 import './Navbar.css'
 
 const NavbarSkeleton = () => (

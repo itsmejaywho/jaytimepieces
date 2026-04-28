@@ -76,9 +76,6 @@ const NavLogin = ({ brandLinkClassName = 'shop-brand', brandInnerClassName = '' 
                 <circle cx="10" cy="6" r="5" stroke="white" strokeWidth="1.5" />
                 <path d="M1 21C1 16.6 5 13 10 13C15 13 19 16.6 19 21" stroke="white" strokeWidth="1.5" />
               </svg>
-              <svg className="profile-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
-                <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </button>
 
             {profileOpen && (

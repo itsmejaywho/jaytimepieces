@@ -1,4 +1,4 @@
-import Skeleton from '../../components/Skeleton/Skeleton'
+import Skeleton from '../../components/loaders/Skeleton/Skeleton'
 import './Login.css'
 
 const LoginSkeleton = () => {
